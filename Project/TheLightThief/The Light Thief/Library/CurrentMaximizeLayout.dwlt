@@ -22,10 +22,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 913, y: 421}
-  m_MaxSize: {x: 22008, y: 10021}
+  m_MinSize: {x: 917, y: 442}
+  m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 5780
+  controlID: 103
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -122,10 +122,10 @@ MonoBehaviour:
     y: 0
     width: 998
     height: 947
-  m_MinSize: {x: 202, y: 421}
-  m_MaxSize: {x: 4002, y: 8021}
+  m_MinSize: {x: 202, y: 442}
+  m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 5625
+  controlID: 57
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -179,14 +179,14 @@ MonoBehaviour:
     width: 996
     height: 465
   m_SceneLighting: 1
-  lastFramingTime: 578.5567645693795
-  m_2DMode: 0
+  lastFramingTime: 883.1409700280423
+  m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.0409604, y: 2.461167, z: 1.0585938}
+    m_Target: {x: 1.9348488, y: 1.8625576, z: -0.00000023841858}
     speed: 2
-    m_Value: {x: 1.0409604, y: 2.461167, z: 1.0585938}
+    m_Value: {x: 1.9348488, y: 1.8625576, z: -0.00000023841858}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -201,25 +201,25 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     yGrid:
-      m_Target: 1
-      speed: 2
-      m_Value: 1
-    zGrid:
       m_Target: 0
       speed: 2
       m_Value: 0
+    zGrid:
+      m_Target: 1
+      speed: 2
+      m_Value: 1
   m_Rotation:
-    m_Target: {x: 0.035215203, y: 0.95169294, z: -0.11940108, w: 0.28068492}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: 0.0352152, y: 0.9516928, z: -0.11940107, w: 0.2806849}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 2.9073222
+    m_Target: 8.11134
     speed: 2
-    m_Value: 2.9073222
+    m_Value: 8.11134
   m_Ortho:
-    m_Target: 0
+    m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 486
     width: 998
     height: 461
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -332,7 +332,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 3a84ffff4684ffff5084ffff6484ffff7a84ffff9a84ffffc2b3ffffe6ddffffe4fbffff00000000
+    m_ExpandedIDs: e0fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -351,7 +351,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
   m_ExpandedScenes:
-  - 
+  - Prototyping
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -416,8 +416,7 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders:
-    - Assets/Plugins/PolygonAdventure/Prefabs/Characters
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -429,7 +428,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b2240000
     m_LastClickedID: 9394
-    m_ExpandedIDs: 00000000b024000016280000d04a0000e04a0000e64a0000de540000
+    m_ExpandedIDs: 000000007426000040280000b22a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -457,7 +456,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b024000016280000d04a0000e04a0000e64a0000de540000
+    m_ExpandedIDs: 000000007426000040280000b22a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

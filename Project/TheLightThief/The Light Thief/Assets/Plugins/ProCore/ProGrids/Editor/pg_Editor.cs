@@ -187,74 +187,74 @@ public class pg_Editor : ScriptableObject, ISerializationCallbackReceiver
 
 	public void LoadPreferences()
 	{
-		if( (EditorPrefs.HasKey(pg_Constant.PGVersion) ? EditorPrefs.GetInt(pg_Constant.PGVersion) : 0) < VERSION )
-		{
-			EditorPrefs.SetInt(pg_Constant.PGVersion, VERSION);
+//		//if( (EditorPrefs.HasKey(pg_Constant.PGVersion) ? EditorPrefs.GetInt(pg_Constant.PGVersion) : 0) < VERSION )
+//		//{
+//		//	EditorPrefs.SetInt(pg_Constant.PGVersion, VERSION);
 	
-			if(RESET_PREFS_REQ)
-			{
-				pg_Preferences.ResetPrefs();
-				// Debug.Log("Resetting Prefs");
-			}
-		}
+//		//	if(RESET_PREFS_REQ)
+//		//	{
+//		//		pg_Preferences.ResetPrefs();
+//		//		// Debug.Log("Resetting Prefs");
+//		//	}
+//		//}
 
-		if(EditorPrefs.HasKey(pg_Constant.SnapEnabled))
-		{
-			snapEnabled = EditorPrefs.GetBool(pg_Constant.SnapEnabled);
-		}
+//		if(EditorPrefs.HasKey(pg_Constant.SnapEnabled))
+//		{
+//			snapEnabled = EditorPrefs.GetBool(pg_Constant.SnapEnabled);
+//		}
 
-		SetSnapValue( 
-			EditorPrefs.HasKey(pg_Constant.GridUnit) ? (SnapUnit)EditorPrefs.GetInt(pg_Constant.GridUnit) : SnapUnit.Meter,
-			EditorPrefs.HasKey(pg_Constant.SnapValue) ? EditorPrefs.GetFloat(pg_Constant.SnapValue) : 1,
-			EditorPrefs.HasKey(pg_Constant.SnapMultiplier) ? EditorPrefs.GetInt(pg_Constant.SnapMultiplier) : 100
-			);
+//		SetSnapValue( 
+//			EditorPrefs.HasKey(pg_Constant.GridUnit) ? (SnapUnit)EditorPrefs.GetInt(pg_Constant.GridUnit) : SnapUnit.Meter,
+//			EditorPrefs.HasKey(pg_Constant.SnapValue) ? EditorPrefs.GetFloat(pg_Constant.SnapValue) : 1,
+//			EditorPrefs.HasKey(pg_Constant.SnapMultiplier) ? EditorPrefs.GetInt(pg_Constant.SnapMultiplier) : 100
+//			);
 
-		if(EditorPrefs.HasKey(pg_Constant.UseAxisConstraints))
-			useAxisConstraints = EditorPrefs.GetBool(pg_Constant.UseAxisConstraints);
+//		if(EditorPrefs.HasKey(pg_Constant.UseAxisConstraints))
+//			useAxisConstraints = EditorPrefs.GetBool(pg_Constant.UseAxisConstraints);
 
-		lockGrid = EditorPrefs.GetBool(pg_Constant.LockGrid);
+//		lockGrid = EditorPrefs.GetBool(pg_Constant.LockGrid);
 
-		if(lockGrid)
-		{
-			if(EditorPrefs.HasKey(pg_Constant.LockedGridPivot))	
-			{
-				string piv = EditorPrefs.GetString(pg_Constant.LockedGridPivot);
-				string[] pivsplit = piv.Replace("(", "").Replace(")", "").Split(',');
+//		if(lockGrid)
+//		{
+//			if(EditorPrefs.HasKey(pg_Constant.LockedGridPivot))	
+//			{
+//				string piv = EditorPrefs.GetString(pg_Constant.LockedGridPivot);
+//				string[] pivsplit = piv.Replace("(", "").Replace(")", "").Split(',');
 				
-				float x, y, z;
-				if( !float.TryParse(pivsplit[0], out x) ) goto NoParseForYou;
-				if( !float.TryParse(pivsplit[1], out y) ) goto NoParseForYou;
-				if( !float.TryParse(pivsplit[2], out z) ) goto NoParseForYou;
+//				float x, y, z;
+//				if( !float.TryParse(pivsplit[0], out x) ) goto NoParseForYou;
+//				if( !float.TryParse(pivsplit[1], out y) ) goto NoParseForYou;
+//				if( !float.TryParse(pivsplit[2], out z) ) goto NoParseForYou;
 
-				pivot.x = x;
-				pivot.y = y;
-				pivot.z = z;
+//				pivot.x = x;
+//				pivot.y = y;
+//				pivot.z = z;
 
-NoParseForYou:	
-				;	// appease the compiler
-			}
+//NoParseForYou:	
+//				;	// appease the compiler
+//			}
 
-		}
+//		}
 
-		fullGrid = EditorPrefs.GetBool(pg_Constant.PerspGrid);		
+//		fullGrid = EditorPrefs.GetBool(pg_Constant.PerspGrid);		
 		
-		renderPlane = EditorPrefs.HasKey(pg_Constant.GridAxis) ? (Axis)EditorPrefs.GetInt(pg_Constant.GridAxis) : Axis.Y;
+//		renderPlane = EditorPrefs.HasKey(pg_Constant.GridAxis) ? (Axis)EditorPrefs.GetInt(pg_Constant.GridAxis) : Axis.Y;
 		
-		alphaBump = (EditorPrefs.HasKey("pg_alphaBump")) ? EditorPrefs.GetFloat("pg_alphaBump") : pg_Preferences.ALPHA_BUMP;
+//		alphaBump = (EditorPrefs.HasKey("pg_alphaBump")) ? EditorPrefs.GetFloat("pg_alphaBump") : pg_Preferences.ALPHA_BUMP;
 
-		gridColorX = (EditorPrefs.HasKey("gridColorX")) ? pg_Util.ColorWithString(EditorPrefs.GetString("gridColorX")) : pg_Preferences.GRID_COLOR_X;
-		gridColorX_primary = new Color(gridColorX.r, gridColorX.g, gridColorX.b, gridColorX.a + alphaBump);
-		gridColorY = (EditorPrefs.HasKey("gridColorY")) ? pg_Util.ColorWithString(EditorPrefs.GetString("gridColorY")) : pg_Preferences.GRID_COLOR_Y;
-		gridColorY_primary = new Color(gridColorY.r, gridColorY.g, gridColorY.b, gridColorY.a + alphaBump);
-		gridColorZ = (EditorPrefs.HasKey("gridColorZ")) ? pg_Util.ColorWithString(EditorPrefs.GetString("gridColorZ")) : pg_Preferences.GRID_COLOR_Z;
-		gridColorZ_primary = new Color(gridColorZ.r, gridColorZ.g, gridColorZ.b, gridColorZ.a + alphaBump);
+//		gridColorX = (EditorPrefs.HasKey("gridColorX")) ? pg_Util.ColorWithString(EditorPrefs.GetString("gridColorX")) : pg_Preferences.GRID_COLOR_X;
+//		gridColorX_primary = new Color(gridColorX.r, gridColorX.g, gridColorX.b, gridColorX.a + alphaBump);
+//		gridColorY = (EditorPrefs.HasKey("gridColorY")) ? pg_Util.ColorWithString(EditorPrefs.GetString("gridColorY")) : pg_Preferences.GRID_COLOR_Y;
+//		gridColorY_primary = new Color(gridColorY.r, gridColorY.g, gridColorY.b, gridColorY.a + alphaBump);
+//		gridColorZ = (EditorPrefs.HasKey("gridColorZ")) ? pg_Util.ColorWithString(EditorPrefs.GetString("gridColorZ")) : pg_Preferences.GRID_COLOR_Z;
+//		gridColorZ_primary = new Color(gridColorZ.r, gridColorZ.g, gridColorZ.b, gridColorZ.a + alphaBump);
 
-		drawGrid = (EditorPrefs.HasKey("showgrid")) ? EditorPrefs.GetBool("showgrid") : pg_Preferences.SHOW_GRID;
+//		drawGrid = (EditorPrefs.HasKey("showgrid")) ? EditorPrefs.GetBool("showgrid") : pg_Preferences.SHOW_GRID;
 
-		predictiveGrid = EditorPrefs.HasKey(pg_Constant.PredictiveGrid) ? EditorPrefs.GetBool(pg_Constant.PredictiveGrid) : true;
+//		predictiveGrid = EditorPrefs.HasKey(pg_Constant.PredictiveGrid) ? EditorPrefs.GetBool(pg_Constant.PredictiveGrid) : true;
 
-		_snapAsGroup = snapAsGroup;
-		_scaleSnapEnabled = ScaleSnapEnabled;
+//		_snapAsGroup = snapAsGroup;
+//		_scaleSnapEnabled = ScaleSnapEnabled;
 	}
 
 	private GUISkin sixBySevenSkin;
