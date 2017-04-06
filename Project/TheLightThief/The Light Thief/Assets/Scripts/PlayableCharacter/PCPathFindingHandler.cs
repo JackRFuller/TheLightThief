@@ -11,6 +11,9 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
     private float playerRotation; //Holds the player's current Rotation
     private Vector3 playerPosition;
 
+    private Vector3 clickPoint;
+    private Transform endNode;
+
     private void Start()
     {
         pcMovement = this.GetComponent<PCMovementController>();
@@ -36,122 +39,126 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
         }
     }
 
+
+    public void CacheClickPointAndTargetPosition(Vector3 _clickPoint, Transform _endNode)
+    {
+        clickPoint = _clickPoint;
+        endNode = _endNode;
+    }
+
     /// <summary>
     /// Takes in Input from when the mouse clicks on a node
     /// </summary>
     /// <param name="clickPoint"></param>
     /// <param name="endNode"></param>
-    public bool CheckIfPathIsValid(Vector3 clickPoint, Transform endNode)
+    public bool CheckIfPathIsValid()
     {
+        FindClosestNode();
+
         //Need Orientation of the player
-        playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
-        Debug.Log(transform.eulerAngles);
+        playerRotation = Utilities.GetObjectZWorldRotation(this.transform);       
         playerPosition = this.transform.position;
         //Debug.Log(playerPosition);
 
-        //Check if click is on the same axis as the player
-        if(!IsMouseClickOnSameAxisAsPlayer(clickPoint))
-        {
-            Debug.Log("Same Axis");
+        if (!IsMouseClickOnSameAxisAsPlayer(clickPoint))
             return false;
+
+        //Check if there is an uninterrupted path to the point
+        //Check what Direction We're Cycling
+        if(playerRotation == 0 || playerRotation == 180)
+        {
+            //Controls which direction we're travelling in
+            int numToAddOn = 0;
+
+            //We're Travelling Right
+            if(clickPoint.x > playerPosition.x)
+            {
+                numToAddOn = 1;
+                Debug.Log("Travelling Right");
+            }
+            else //We're Travelling Left
+            {
+                numToAddOn = -1;
+                Debug.Log("Travelling Left");
+            }
+
+            //Work Out Difference Between Start Node and End Node
+            if (endNode == null)
+            {
+                return false;
+            }
+                
+
+            int difference = (int)Mathf.Abs(startingNode.x - endNode.position.x);
+            Debug.Log("Difference To Travel " + difference);
+
+            Vector3 startingPoint = startingNode;
+
+            for(int i = 0; i < difference; i++)
+            {
+                startingPoint = new Vector3(startingPoint.x + numToAddOn,
+                                            startingPoint.y,
+                                            startingPoint.z);
+
+                Debug.Log("Looking for " + startingPoint);
+
+                //Check if that node exists
+                if(NodeManager.Nodes.Contains(startingPoint))
+                {
+                    Debug.Log("Found Node");
+                }
+                else
+                {
+                    Debug.Log("No Node Found - False Path");
+                    pcMovement.KillPlayerMovement();
+                    return false;
+                }
+            }
+            return true;
         }
         else
         {
-            //Check if there is an uninterrupted path to the point
-            //Check what Direction We're Cycling
-            if(playerRotation == 0 || playerRotation == 180)
+            int numToAddOn = 0;
+            if (clickPoint.y > playerPosition.y)
             {
-                //Controls which direction we're travelling in
-                int numToAddOn = 0;
-
-                //We're Travelling Right
-                if(clickPoint.x > playerPosition.x)
-                {
-                    numToAddOn = 1;
-                    Debug.Log("Travelling Right");
-                }
-                else //We're Travelling Left
-                {
-                    numToAddOn = -1;
-                    Debug.Log("Travelling Left");
-                }
-
-                //Work Out Difference Between Start Node and End Node
-                int difference = (int)Mathf.Abs(startingNode.x - endNode.position.x);
-                Debug.Log("Difference To Travel " + difference);
-
-                Vector3 startingPoint = startingNode;
-
-                for(int i = 0; i < difference; i++)
-                {
-                    startingPoint = new Vector3(startingPoint.x + numToAddOn,
-                                                startingPoint.y,
-                                                startingPoint.z);
-
-                    Debug.Log("Looking for " + startingPoint);
-
-                    //Check if that node exists
-                    if(NodeManager.Nodes.Contains(startingPoint))
-                    {
-                        Debug.Log("Found Node");
-                    }
-                    else
-                    {
-                        Debug.Log("No Node Found - False Path");
-                        return false;
-                    }
-                }
-
-                pcMovement.MoveToPosition(clickPoint);
-                return true;
+                numToAddOn = 1;
+                Debug.Log("Travelling Up");
             }
-            else
+            else //We're Travelling Left
             {
-                int numToAddOn = 0;
-                if (clickPoint.y > playerPosition.y)
-                {
-                    numToAddOn = 1;
-                    Debug.Log("Travelling Up");
-                }
-                else //We're Travelling Left
-                {
-                    numToAddOn = -1;
-                    Debug.Log("Travelling Down");
-                }
-
-                //Work Out Difference Between Start Node and End Node
-                int difference = (int)Mathf.Abs(startingNode.y - endNode.position.y);
-                Debug.Log("Difference " + difference);
-
-                Vector3 startingPoint = startingNode;
-                Debug.Log("Starting Point " + startingNode);
-
-                for (int i = 0; i < difference; i++)
-                {
-                    startingPoint = new Vector3(startingPoint.x,
-                                                startingPoint.y + numToAddOn,
-                                                startingPoint.z);
-
-                    Debug.Log("Looking for " + startingPoint);
-
-                    //Check if that node exists
-                    if (NodeManager.Nodes.Contains(startingPoint))
-                    {
-                        Debug.Log("Found Node");
-                    }
-                    else
-                    {
-                        Debug.Log("No Node Found - False Path");
-                        return false;
-                    }
-                }
-
-                pcMovement.MoveToPosition(clickPoint);
-                return true;
+                numToAddOn = -1;
+                Debug.Log("Travelling Down");
             }
+
+            //Work Out Difference Between Start Node and End Node
+            int difference = (int)Mathf.Abs(startingNode.y - endNode.position.y);
+            Debug.Log("Difference " + difference);
+
+            Vector3 startingPoint = startingNode;
+            Debug.Log("Starting Point " + startingNode);
+
+            for (int i = 0; i < difference; i++)
+            {
+                startingPoint = new Vector3(startingPoint.x,
+                                            startingPoint.y + numToAddOn,
+                                            startingPoint.z);
+
+                Debug.Log("Looking for " + startingPoint);
+
+                //Check if that node exists
+                if (NodeManager.Nodes.Contains(startingPoint))
+                {
+                    Debug.Log("Found Node");
+                }
+                else
+                {
+                    Debug.Log("No Node Found - False Path");
+                    pcMovement.KillPlayerMovement();
+                    return false;
+                }
+            }
+            return true;
         }
-
-
     }
 
     private bool IsMouseClickOnSameAxisAsPlayer(Vector3 mouseClick)
@@ -163,7 +170,6 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
             {
                 return true;
             }
-            
         }
 
         return true;

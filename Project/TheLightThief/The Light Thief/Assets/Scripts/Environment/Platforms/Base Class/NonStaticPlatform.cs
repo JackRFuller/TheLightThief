@@ -5,7 +5,7 @@ using UnityEngine;
 public class NonStaticPlatform : MonoBehaviour
 {
     protected PCMovementController pcMovementController;
-    protected bool hasPlayerOnPlatform;
+    protected bool hasPlayerOnPlatform = false;
 
     protected void EnablePlayerInput()
     {
@@ -37,7 +37,7 @@ public class NonStaticPlatform : MonoBehaviour
         if (other.tag.Equals("Player"))
         {
             other.transform.parent = null;
-            hasPlayerOnPlatform = false;
+            hasPlayerOnPlatform = false;            
         }
     }
 }

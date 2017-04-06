@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
+    //Componets
+    private PCMovementController pcMovementController;
+
     private Camera mainCamera;
 
     private bool allowPlayerMovement = true;
@@ -22,6 +25,7 @@ public class InputHandler : MonoBehaviour
 
     private void Start()
     {
+        pcMovementController = PCPathFindingHandler.Instance.GetComponent<PCMovementController>();
         mainCamera = this.GetComponent<Camera>();
     }
 
@@ -43,8 +47,12 @@ public class InputHandler : MonoBehaviour
                 {
                     if(allowPlayerMovement)
                     {
-                        if (PCPathFindingHandler.Instance.CheckIfPathIsValid(hit.point, hit.transform))
+                        PCPathFindingHandler.Instance.CacheClickPointAndTargetPosition(hit.point, hit.transform);
+
+                        if (PCPathFindingHandler.Instance.CheckIfPathIsValid())
                         {
+                            //Let PC Move
+                            pcMovementController.MoveToPosition(hit.point);
                             Debug.Log("Valid Path");
                         }
                         else

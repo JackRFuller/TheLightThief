@@ -17,6 +17,14 @@ public class MovingPlatformHandler : NonStaticPlatform
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
+    [Header("Path Components")]
+    [SerializeField]
+    private Transform pointOne;
+    [SerializeField]
+    private Transform pointTwo;
+    [SerializeField]
+    private Transform path;
+
     //Lerping Attributes
     private float timeStarted;
     private bool isMoving;
@@ -29,8 +37,10 @@ public class MovingPlatformHandler : NonStaticPlatform
         if(hasPlayerOnPlatform)
         {
             if (pcMovementController)
+            {
                 pcMovementController.KillPlayerMovement();
-
+                pcMovementController.MakePlayerNonColliable();
+            }
             DisablePlayerInput();
         }
 
@@ -63,7 +73,6 @@ public class MovingPlatformHandler : NonStaticPlatform
         {
             StopPlatform();
         }
-
     }
 
     private void StopPlatform()
@@ -76,6 +85,20 @@ public class MovingPlatformHandler : NonStaticPlatform
         if (movementCount > 1)
             movementCount = 0;
 
+        if(pcMovementController)
+            pcMovementController.MakePlayerCollidable();
         EnablePlayerInput();
+        EventManager.TriggerEvent(Events.RecalibrateNodes);
     }
+
+    #region EditorScripts
+
+    public void SetPath()
+    {
+        pointOne.position = positionOne;
+        pointTwo.position = positionTwo;
+    }
+
+
+#endregion
 }

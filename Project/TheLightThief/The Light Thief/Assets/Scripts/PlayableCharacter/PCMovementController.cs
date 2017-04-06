@@ -6,9 +6,8 @@ public class PCMovementController : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField]
-    private Transform pcMesh;
+    private Transform pcMesh;    
     private Animator pcAnim;
-    //Components
     private Rigidbody rb;
 
     [Header("Movement Attributes")]
@@ -23,7 +22,7 @@ public class PCMovementController : MonoBehaviour
 
     private void Start()
     {
-        //Get Components
+        //Get Components        
         rb = this.GetComponent<Rigidbody>();
         pcAnim = pcMesh.GetComponent<Animator>();
     }
@@ -104,11 +103,28 @@ public class PCMovementController : MonoBehaviour
         targetPoint = this.transform.position;
         desiredVelocity = Vector3.zero;
     }
+
+    /// <summary>
+    /// Triggered when on rotating/moving platform to make sure player doesn't collide with any other platform
+    /// </summary>
+    public void MakePlayerNonColliable()
+    {
+        this.gameObject.layer = LayerMask.NameToLayer("Ghost");
+    }
+
+    public void MakePlayerCollidable()
+    {
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
+    }
     
     private Vector3 CalculateMeshLookAtVector()
     {
         Vector3 lookAtDir = Vector3.zero;
         Debug.Log(playerRotation);
+
+        Quaternion rot = new Quaternion();
+        rot = Quaternion.Euler(transform.eulerAngles);
+        float zAxis = rot.eulerAngles.z;
 
         if(playerRotation == 0)
         {
@@ -132,7 +148,7 @@ public class PCMovementController : MonoBehaviour
                 lookAtDir = new Vector3(0, 90, 0);
             }
         }
-        else if(playerRotation == 90)
+        else if(zAxis == 90)
         {
             if(targetPoint.y > transform.position.y)
             {
@@ -143,7 +159,7 @@ public class PCMovementController : MonoBehaviour
                 lookAtDir = new Vector3(0, 270, 0);
             }
         }
-        else if (playerRotation == 270)
+        else if (zAxis == 270)
         {
             if (targetPoint.y > transform.position.y)
             {
