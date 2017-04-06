@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
 {
+    //Components
+    private PCMovementController pcMovement;
+
     private Vector3 startingNode; //Holds to closest node to the player
     private float playerRotation; //Holds the player's current Rotation
     private Vector3 playerPosition;
 
     private void Start()
     {
+        pcMovement = this.GetComponent<PCMovementController>();
+
         FindClosestNode();
     }
 
@@ -39,9 +44,10 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
     public bool CheckIfPathIsValid(Vector3 clickPoint, Transform endNode)
     {
         //Need Orientation of the player
-        playerRotation = transform.eulerAngles.z;
+        playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
         Debug.Log(transform.eulerAngles);
         playerPosition = this.transform.position;
+        //Debug.Log(playerPosition);
 
         //Check if click is on the same axis as the player
         if(!IsMouseClickOnSameAxisAsPlayer(clickPoint))
@@ -52,7 +58,6 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
         else
         {
             //Check if there is an uninterrupted path to the point
-
             //Check what Direction We're Cycling
             if(playerRotation == 0 || playerRotation == 180)
             {
@@ -96,6 +101,8 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
                         return false;
                     }
                 }
+
+                pcMovement.MoveToPosition(clickPoint);
                 return true;
             }
             else
@@ -138,6 +145,8 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
                         return false;
                     }
                 }
+
+                pcMovement.MoveToPosition(clickPoint);
                 return true;
             }
         }
