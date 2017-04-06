@@ -95,8 +95,28 @@ public class MovingPlatformHandler : NonStaticPlatform
 
     public void SetPath()
     {
-        pointOne.position = positionOne;
-        pointTwo.position = positionTwo;
+        //Get Center Point
+        Vector3 centerPoint = this.GetComponent<Collider>().bounds.center;
+
+        Vector3 pointOnePos = new Vector3(centerPoint.x,
+                                          centerPoint.y,
+                                          1.0f);
+
+        Vector3 pointTwoPos = new Vector3(centerPoint.x,
+                                         positionTwo.y,
+                                         1.0f);
+
+        pointOne.position = pointOnePos;
+        pointTwo.position = pointTwoPos;
+
+        //Work out difference
+        float diff = (pointOnePos.y + pointTwoPos.y) * 0.5f;
+
+        Vector3 pathPos = new Vector3(centerPoint.x,
+                                      diff,
+                                      1);
+
+        path.position = pathPos;
     }
 
 

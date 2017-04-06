@@ -11,6 +11,7 @@ public class SwitchHandler : MonoBehaviour
     [SerializeField]
     private Material wheelMaterial;
     private Animation switchAnim;
+    private Collider switchCol;
 
     [Header("Associated Platforms")]
     [SerializeField]
@@ -22,10 +23,14 @@ public class SwitchHandler : MonoBehaviour
     private float startingAlphaValue;
     private float timeStarted;
     private bool isActivating;
+    private Material newMat;
+    private Color newColor;
 
     private void Start()
     {
         switchAnim = this.GetComponent<Animation>();
+        switchCol = this.GetComponent<Collider>();
+        switchCol.enabled = false;
     }
 
     /// <summary>
@@ -33,7 +38,11 @@ public class SwitchHandler : MonoBehaviour
     /// </summary>
     public void StartActivatingSwitch()
     {
-        startingAlphaValue = wheelMaterial.color.a;
+        switchCol = this.GetComponent<Collider>();
+        switchCol.enabled = false;
+        newMat = wheelMesh.GetChild(0).GetComponent<MeshRenderer>().materials[0];
+        newColor = newMat.color;
+
         timeStarted = Time.time;
         isActivating = true;
     }
@@ -46,24 +55,23 @@ public class SwitchHandler : MonoBehaviour
 
     private void ActivateSwitch()
     {
-        //float timeSinceStarted = Time.time - timeStarted;
-        //float percentageComplete = timeSinceStarted / 5;
+        float timeSinceStarted = Time.time - timeStarted;
+        float percentageComplete = timeSinceStarted / 1;
 
-        //Material newMat = new Material(Shader.Find("Diffuse"));
-        
-        
+        newColor.a = Mathf.Lerp(newColor.a, 1, percentageComplete);
+        newMat.color = newColor;
 
-        //newMat.color = newColor;
-        //foreach(Transform part in wheelMesh)
-        //{
-        //    part.GetComponent<MeshRenderer>().material = newMat;
-        //}
+        newMat.color = newColor;
+        foreach (Transform part in wheelMesh)
+        {
+            part.GetComponent<MeshRenderer>().material = newMat;
+        }
 
-        //if(percentageComplete >= 1.0f)
-        //{
-        //    isActivating = false;
-        //}
-
+        if (percentageComplete >= 1.0f)
+        {
+            isActivating = false;
+            switchCol.enabled = true;
+        }
     }
 
 
