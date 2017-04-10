@@ -6,10 +6,20 @@ public class InputHandler : MonoBehaviour
 {
     //Componets
     private PCMovementController pcMovementController;
+    private AudioSource inputAudio;
 
     private Camera mainCamera;
 
     private bool allowPlayerMovement = true;
+
+    [Header("Cursor")]
+    [SerializeField]
+    private Texture2D cursorImage;
+
+    [Header("Indicators")]
+    [SerializeField]
+    private GameObject playerWpPrefab;
+    private GameObject playerWaypoint;
 
     private void OnEnable()
     {
@@ -25,8 +35,16 @@ public class InputHandler : MonoBehaviour
 
     private void Start()
     {
+        //Get Components
         pcMovementController = PCPathFindingHandler.Instance.GetComponent<PCMovementController>();
         mainCamera = this.GetComponent<Camera>();
+        inputAudio = this.GetComponent<AudioSource>();
+
+        //Set Cursor Sprite
+        Vector2 hotSpot = new Vector2(cursorImage.width * 0.5f, cursorImage.height * 0.5f);
+        Cursor.SetCursor(cursorImage, hotSpot, CursorMode.Auto);
+
+       
     }
 
     private void Update()
@@ -51,9 +69,22 @@ public class InputHandler : MonoBehaviour
 
                         if (PCPathFindingHandler.Instance.CheckIfPathIsValid())
                         {
+                            //Spawn In Waypoint
+                            if(playerWaypoint == null)
+                            {
+                                playerWaypoint = Instantiate(playerWpPrefab) as GameObject;
+                            }
+                            
+                            playerWaypoint.transform.position = new Vector3(hit.point.x,
+                                                                            hit.point.y,
+                                                                            playerWaypoint.transform.position.z);
+                            playerWaypoint.GetComponent<Animation>().Play(); 
+
                             //Let PC Move
                             pcMovementController.MoveToPosition(hit.point);
-                            Debug.Log("Valid Path");
+
+                            inputAudio.PlayOneShot(inputAudio.clip);
+                            
                         }
                         else
                         {

@@ -38,6 +38,7 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
         timeStarted = Time.time;
         isMoving = true;
+        platformCollider.enabled = false;
     }
 
     private void Update()
@@ -63,6 +64,9 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
     private void StopPlatformRotation()
     {
+        platformCollider.enabled = true;
+        platformAudio.PlayOneShot(platformAudio.clip);
+
         isMoving = false;
 
         if (transform.localEulerAngles.z >= 360)

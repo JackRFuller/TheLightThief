@@ -17,6 +17,8 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
     private void Start()
     {
         pcMovement = this.GetComponent<PCMovementController>();
+        playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
+        playerPosition = this.transform.position;
 
         FindClosestNode();
     }
@@ -27,14 +29,48 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
 
         float dist = 0;
 
+        float playerRot = Mathf.Abs(Mathf.Round(transform.eulerAngles.z));
+        Debug.Log(playerRot);
+
         for (int i = 0; i < NodeManager.Nodes.Count; i++)
         {
             float newDist = Vector3.Distance(this.transform.position, NodeManager.Nodes[i]);
 
-            if (newDist < dist || i == 0)
+            if (newDist < dist || dist == 0)
             {
-                dist = newDist;
-                startingNode = NodeManager.Nodes[i];
+                if(playerRot == 0)
+                {
+                    if(playerPosition.y > NodeManager.Nodes[i].y)
+                    {
+                        dist = newDist;
+                        startingNode = NodeManager.Nodes[i];
+                    }
+                }
+                else if(playerRot == 180)
+                {
+                    if (playerPosition.y < NodeManager.Nodes[i].y)
+                    {
+                        dist = newDist;
+                        startingNode = NodeManager.Nodes[i];
+                    }
+                }
+                else if(playerRot == 90)
+                {
+                    if (playerPosition.x < NodeManager.Nodes[i].x)
+                    {
+                        dist = newDist;
+                        startingNode = NodeManager.Nodes[i];
+                    }
+                }
+                else if (playerRot == 270)
+                {
+                    if (playerPosition.x > NodeManager.Nodes[i].x)
+                    {
+                        dist = newDist;
+                        startingNode = NodeManager.Nodes[i];
+                    }
+                }
+
             }
         }
     }
@@ -53,11 +89,11 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
     /// <param name="endNode"></param>
     public bool CheckIfPathIsValid()
     {
-        FindClosestNode();
-
         //Need Orientation of the player
         playerRotation = Utilities.GetObjectZWorldRotation(this.transform);       
         playerPosition = this.transform.position;
+
+        FindClosestNode();
         //Debug.Log(playerPosition);
 
         if (!IsMouseClickOnSameAxisAsPlayer(clickPoint))
@@ -163,16 +199,33 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
 
     private bool IsMouseClickOnSameAxisAsPlayer(Vector3 mouseClick)
     {
+        float player = 0;
+        float target = 0;
+
         if(playerRotation == 0 || playerRotation == 180)
         {
-            //Find the difference between the height of the click and the player
-            if(mouseClick.y < playerPosition.y + 0.5f && mouseClick.y > playerPosition.y - 0.5f)
+            player = playerPosition.y;
+            target = mouseClick.y;
+
+            if (player <= target + 1.0f && player >= target - 1.0f)
             {
                 return true;
             }
-        }
+            else
+                return false;
+        }        
+        else
+        {
+            player = playerPosition.x;
+            target = mouseClick.x;
 
-        return true;
+            if (player <= target + 1.0f && player >= target - 1.0f)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 
 

@@ -124,9 +124,11 @@ public class PCMovementController : MonoBehaviour
 
         Quaternion rot = new Quaternion();
         rot = Quaternion.Euler(transform.eulerAngles);
-        float zAxis = rot.eulerAngles.z;
+        float zAxis = Mathf.Abs(Mathf.Round(rot.eulerAngles.z));
 
-        if(playerRotation == 0)
+        Debug.Log("Rot " + zAxis);
+
+        if(zAxis == 0)
         {
             if(targetPoint.x > transform.position.x)
             {
@@ -137,7 +139,7 @@ public class PCMovementController : MonoBehaviour
                 lookAtDir = new Vector3(0, 270, 0);
             }
         }
-        else if(playerRotation == 180)
+        else if(zAxis == 180)
         {
             if (targetPoint.x > transform.position.x)
             {
@@ -172,5 +174,13 @@ public class PCMovementController : MonoBehaviour
         }
 
         return lookAtDir;
-    }  
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag.Equals("Node"))
+        {
+            this.transform.parent = other.transform;
+        }
+    }
 }

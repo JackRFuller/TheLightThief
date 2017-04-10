@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class NonStaticPlatform : MonoBehaviour
 {
+    protected Collider platformCollider;
+    protected AudioSource platformAudio;
     protected PCMovementController pcMovementController;
     protected bool hasPlayerOnPlatform = false;
+
+    protected virtual void Start()
+    {
+        //Get Components
+        platformAudio = this.GetComponent<AudioSource>();
+        platformCollider = this.GetComponent<Collider>();
+    }
 
     protected void EnablePlayerInput()
     {
@@ -21,7 +30,8 @@ public class NonStaticPlatform : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            other.transform.parent = this.transform;
+            Debug.Log("Parented " + this.gameObject.name);
+            //other.transform.parent = this.transform;
 
             if (pcMovementController == null)
             {
@@ -36,7 +46,8 @@ public class NonStaticPlatform : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            other.transform.parent = null;
+            Debug.Log("UnParented " + this.gameObject.name);
+            //other.transform.parent = null;
             hasPlayerOnPlatform = false;            
         }
     }

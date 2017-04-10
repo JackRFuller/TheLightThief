@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovingPlatformHandler : NonStaticPlatform
 {
+    
     [Header("Movement")]
     [SerializeField]
     private float movementSpeed;
@@ -13,24 +14,22 @@ public class MovingPlatformHandler : NonStaticPlatform
     private Vector3 positionOne;
     [SerializeField]
     private Vector3 positionTwo;
+    public Vector3 PositionTwo { get { return positionTwo; } }
 
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
     [Header("Path Components")]
     [SerializeField]
-    private Transform pointOne;
-    [SerializeField]
-    private Transform pointTwo;
-    [SerializeField]
-    private Transform path;
+    private GameObject pathPrefab;
+    private GameObject path;
 
     //Lerping Attributes
     private float timeStarted;
     private bool isMoving;
     public bool IsMoving { get { return isMoving; } } //Used by Switches to determine whether to move
-    private int movementCount = 0;    
-
+    private int movementCount = 0;
+  
     public void StartMoving()
     {
         //Kill Player Movement
@@ -53,6 +52,8 @@ public class MovingPlatformHandler : NonStaticPlatform
 
         timeStarted = Time.time;
         isMoving = true;
+
+        platformCollider.enabled = false;
     }
 
     private void Update()
@@ -77,6 +78,9 @@ public class MovingPlatformHandler : NonStaticPlatform
 
     private void StopPlatform()
     {
+        platformCollider.enabled = true;
+        platformAudio.PlayOneShot(platformAudio.clip);
+
         this.transform.position = targetPosition;
 
         isMoving = false;
@@ -93,32 +97,17 @@ public class MovingPlatformHandler : NonStaticPlatform
 
     #region EditorScripts
 
-    public void SetPath()
+    public void CreatePath()
     {
-        //Get Center Point
-        Vector3 centerPoint = this.GetComponent<Collider>().bounds.center;
+        if(path != null)
+        {
+            DestroyImmediate(path);
+        }
 
-        Vector3 pointOnePos = new Vector3(centerPoint.x,
-                                          centerPoint.y,
-                                          1.0f);
+        path = Instantiate(pathPrefab) as GameObject;
 
-        Vector3 pointTwoPos = new Vector3(centerPoint.x,
-                                         positionTwo.y,
-                                         1.0f);
-
-        pointOne.position = pointOnePos;
-        pointTwo.position = pointTwoPos;
-
-        //Work out difference
-        float diff = (pointOnePos.y + pointTwoPos.y) * 0.5f;
-
-        Vector3 pathPos = new Vector3(centerPoint.x,
-                                      diff,
-                                      1);
-
-        path.position = pathPos;
+        path.GetComponent<MovingPlatformPath>().SetupPath(this);
     }
-
 
 #endregion
 }

@@ -12,12 +12,27 @@ public class SwitchHandler : MonoBehaviour
     private Material wheelMaterial;
     private Animation switchAnim;
     private Collider switchCol;
+    private AudioSource switchAudio;
+
+    [Header("Audio")]
+    [SerializeField]
+    private AudioClip startUpSFX;
+    [SerializeField]
+    private AudioClip activatedSFX;
 
     [Header("Associated Platforms")]
     [SerializeField]
     private MovingPlatformHandler[] movingPlatforms;
     [SerializeField]
     private RotatingPlatformHandler[] rotatingPlatforms;
+
+    [Header("Associated Wires")]
+    [SerializeField]
+    private WireHandler[] wires;
+
+    [Header("Screenshake")]
+    [SerializeField]
+    private CameraScreenShake.Properties screenShakeProperties;
 
     //Colour Lerping
     private float startingAlphaValue;
@@ -26,11 +41,14 @@ public class SwitchHandler : MonoBehaviour
     private Material newMat;
     private Color newColor;
 
+    private int triggers = 0; //When Triggers == 2 then switch is active
+
     private void Start()
     {
         switchAnim = this.GetComponent<Animation>();
         switchCol = this.GetComponent<Collider>();
         switchCol.enabled = false;
+        switchAudio = this.GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -38,19 +56,29 @@ public class SwitchHandler : MonoBehaviour
     /// </summary>
     public void StartActivatingSwitch()
     {
-        switchCol = this.GetComponent<Collider>();
         switchCol.enabled = false;
         newMat = wheelMesh.GetChild(0).GetComponent<MeshRenderer>().materials[0];
         newColor = newMat.color;
 
         timeStarted = Time.time;
         isActivating = true;
+
+        for(int i = 0; i < wires.Length; i++)
+        {
+            wires[i].TriggerWires(this);
+        }
+
+        switchAudio.PlayOneShot(startUpSFX);        
     }
 
     private void Update()
     {
         if (isActivating)
             ActivateSwitch();
+
+        if (triggers == 2 && !switchCol.enabled)
+            TurnOnSwitchCollider();
+
     }
 
     private void ActivateSwitch()
@@ -70,11 +98,20 @@ public class SwitchHandler : MonoBehaviour
         if (percentageComplete >= 1.0f)
         {
             isActivating = false;
-            switchCol.enabled = true;
+            IncremementTrigger();
         }
     }
 
+    private void TurnOnSwitchCollider()
+    {
+        switchCol.enabled = true;
+    }
 
+    public void IncremementTrigger()
+    {
+        triggers++;
+    }
+    
     private void ActivatePlatformBehaviour()
     {
         //Check that Platforms aren't already moving
@@ -103,7 +140,10 @@ public class SwitchHandler : MonoBehaviour
         if(!switchAnim.isPlaying)
             switchAnim.Play();
 
+        switchAudio.PlayOneShot(activatedSFX);
+
         StartCoroutine(WaitToReCalibrateNodePositions());
+        CameraScreenShake.Instance.StartShake(screenShakeProperties);
 
     }
 

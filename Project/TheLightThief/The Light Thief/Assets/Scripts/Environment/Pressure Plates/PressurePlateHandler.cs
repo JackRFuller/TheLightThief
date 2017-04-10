@@ -11,6 +11,7 @@ public class PressurePlateHandler : MonoBehaviour
     //Components
     private Animation plateAnim;
     private Collider plateColl;
+    private AudioSource platformAudio;
 
 
     private void Start()
@@ -18,6 +19,7 @@ public class PressurePlateHandler : MonoBehaviour
         //Get Components
         plateAnim = this.GetComponent<Animation>();
         plateColl = this.GetComponent<Collider>();
+        platformAudio = this.GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +34,8 @@ public class PressurePlateHandler : MonoBehaviour
     {
         //Turn Off Plate
         plateColl.enabled = false;
+
+        platformAudio.PlayOneShot(platformAudio.clip);
 
         if(!plateAnim.isPlaying)
             plateAnim.Play();

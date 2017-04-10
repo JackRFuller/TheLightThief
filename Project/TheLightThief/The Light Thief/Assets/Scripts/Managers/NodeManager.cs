@@ -26,6 +26,8 @@ public class NodeManager : MonoSingleton<NodeManager>
 
     private void GetNodes()
     {
+        EventManager.TriggerEvent(Events.DisablePlayerMovement);
+
         nodes.Clear();
 
         NodeHandler[] tempNodes = FindObjectsOfType<NodeHandler>();
@@ -41,6 +43,8 @@ public class NodeManager : MonoSingleton<NodeManager>
         }
         
         debugNodes = nodes;
+
+        EventManager.TriggerEvent(Events.EnablePlayerMovement);
     }
 
 }

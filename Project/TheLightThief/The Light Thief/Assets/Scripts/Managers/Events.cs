@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Events
 {
+    //Called when the player acquires a key
+    public static string CollectedKey = "CollectedKey";
+
     //Called from Platforms have changed position
     public static string RecalibrateNodes = "RecalibrateNodes";
 

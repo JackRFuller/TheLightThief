@@ -41,7 +41,7 @@ public class MovingPlatformEditor : Editor
 
         if(GUILayout.Button("Set Path"))
         {
-            movingPlatform.SetPath();
+            movingPlatform.CreatePath();
         }
 
         serializedObject.ApplyModifiedProperties();
