@@ -1,0 +1,20 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PCStartPoint : MonoBehaviour
+{
+    private Transform player;
+
+    private void OnEnable()
+    {
+        Debug.Log("Enabled");
+
+        player = PCPathFindingHandler.Instance.transform;
+        player.position = this.transform.position;
+        player.rotation = this.transform.rotation;
+
+        player.gameObject.SetActive(true);
+    }
+
+}

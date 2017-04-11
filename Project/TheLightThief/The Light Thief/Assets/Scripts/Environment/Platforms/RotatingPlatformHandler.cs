@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RotatingPlatformHandler : NonStaticPlatform
 {
+    private RotatingPlatformAddOn platformAddOn;
+
     [Header("Movement Attributes")]
     [SerializeField]
     private float movementSpeed;
@@ -17,6 +19,13 @@ public class RotatingPlatformHandler : NonStaticPlatform
     private bool isMoving;
     public bool IsMoving { get { return isMoving; } }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        platformAddOn = this.GetComponent<RotatingPlatformAddOn>();
+    }
+
     public void StartPlatformRotation()
     {
         //Check if PC is on Platform
@@ -29,6 +38,10 @@ public class RotatingPlatformHandler : NonStaticPlatform
             }
             DisablePlayerInput();
         }
+
+        //Check if this Platform Has COnnected Platform
+        if (platformAddOn)
+            platformAddOn.DisconnectMovingPlatformsFromPath();
 
         startingRot = transform.rotation;
 
@@ -77,6 +90,7 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
         EnablePlayerInput();
         EventManager.TriggerEvent(Events.RecalibrateNodes);
+        EventManager.TriggerEvent(Events.PlatformsInPlace);
     }
 
 }

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Prototyping.unity
+- path: Assets/Scenes/LevelDesign.unity
   isLoaded: 1
   isActive: 1

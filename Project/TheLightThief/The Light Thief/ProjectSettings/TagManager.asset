@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Node
   - Switch
+  - RayPoint
   layers:
   - Default
   - TransparentFX

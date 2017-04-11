@@ -83,7 +83,7 @@ public class DoorHandler : MonoBehaviour
     {
         if(other.tag.Equals("Player"))
         {
-            Debug.Log("Level Complete");
+            
         }
     }
 

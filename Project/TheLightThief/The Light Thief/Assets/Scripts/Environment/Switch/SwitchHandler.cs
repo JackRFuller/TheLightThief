@@ -22,7 +22,7 @@ public class SwitchHandler : MonoBehaviour
 
     [Header("Associated Platforms")]
     [SerializeField]
-    private MovingPlatformHandler[] movingPlatforms;
+    private MovingPlatformPath[] movingPlatforms;
     [SerializeField]
     private RotatingPlatformHandler[] rotatingPlatforms;
 
@@ -115,29 +115,34 @@ public class SwitchHandler : MonoBehaviour
     private void ActivatePlatformBehaviour()
     {
         //Check that Platforms aren't already moving
-        for(int i = 0; i < movingPlatforms.Length; i++)
-        {
-            if (movingPlatforms[i].IsMoving)
-                return;
-        }
-
         for(int i = 0; i < rotatingPlatforms.Length; i++)
         {
             if (rotatingPlatforms[i].IsMoving)
                 return;
         }
 
-        for(int i = 0; i < rotatingPlatforms.Length; i++)
+        for(int i = 0; i < movingPlatforms.Length; i++)
+        {
+            if (movingPlatforms[i].IsMoving)
+                return;
+        }
+
+
+
+        //Activate Platforms
+        for (int i = 0; i < movingPlatforms.Length; i++)
+        {
+            movingPlatforms[i].ActivateMovingPlatform();
+        }
+
+        for (int i = 0; i < rotatingPlatforms.Length; i++)
         {
             rotatingPlatforms[i].StartPlatformRotation();
         }
 
-        for (int i = 0; i < movingPlatforms.Length; i++)
-        {
-            movingPlatforms[i].StartMoving();
-        }
+        
 
-        if(!switchAnim.isPlaying)
+        if (!switchAnim.isPlaying)
             switchAnim.Play();
 
         switchAudio.PlayOneShot(activatedSFX);
