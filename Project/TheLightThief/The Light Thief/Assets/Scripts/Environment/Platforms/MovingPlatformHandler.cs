@@ -12,6 +12,8 @@ public class MovingPlatformHandler : NonStaticPlatform
 
     private Vector3 startingPosition;
     private Vector3 targetPosition;
+
+    private List<Collider> platformColliders = new List<Collider>();
    
     //Lerping Attributes
     private float timeStarted;
@@ -28,11 +30,25 @@ public class MovingPlatformHandler : NonStaticPlatform
         base.Start();
       
         originalParent = this.transform.parent;
+
+        //Find All Colliders
+        foreach(Transform child in this.transform)
+        {
+            Collider[] colliders = child.GetComponents<Collider>();
+            for(int i = 0; i < colliders.Length; i++)
+            {
+                platformColliders.Add(colliders[i]);
+            }
+        }
+
+        platformColliders.Add(this.GetComponent<Collider>());
     }
 
 
     public void StartMoving(Vector3 startPosition, Vector3 endPosition)
     {
+        Debug.Log("Started Moving");
+
         //check if We're Connected to a Rotating Platform
         if(this.transform.parent != null && originalParent != null)
         {
@@ -51,6 +67,14 @@ public class MovingPlatformHandler : NonStaticPlatform
                 pcMovementController.MakePlayerNonColliable();
             }
             DisablePlayerInput();
+        }
+        else
+        {
+            //Turn off Colliders
+            for(int i = 0; i < platformColliders.Count; i++)
+            {
+                platformColliders[i].enabled = false;
+            }
         }
 
         startingPosition = new Vector3(startPosition.x,
@@ -93,6 +117,14 @@ public class MovingPlatformHandler : NonStaticPlatform
         path.IsMoving = false;
 
         platformCollider.enabled = true;
+
+
+        //Turn On Colliders
+        for (int i = 0; i < platformColliders.Count; i++)
+        {
+            platformColliders[i].enabled = true;
+        }
+
         platformAudio.PlayOneShot(platformAudio.clip);
 
         this.transform.position = targetPosition;

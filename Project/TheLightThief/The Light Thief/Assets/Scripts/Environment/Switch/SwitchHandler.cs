@@ -20,7 +20,7 @@ public class SwitchHandler : MonoBehaviour
     [SerializeField]
     private AudioClip activatedSFX;
 
-    [Header("Associated Platforms")]
+    [Header("Associated Paths")]
     [SerializeField]
     private MovingPlatformPath[] movingPlatforms;
     [SerializeField]
@@ -127,7 +127,7 @@ public class SwitchHandler : MonoBehaviour
                 return;
         }
 
-
+        Debug.Log("Can Activate Platforms");
 
         //Activate Platforms
         for (int i = 0; i < movingPlatforms.Length; i++)

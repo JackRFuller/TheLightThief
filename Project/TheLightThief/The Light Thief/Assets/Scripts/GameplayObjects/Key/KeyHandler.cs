@@ -14,6 +14,8 @@ public class KeyHandler : MonoBehaviour
     [SerializeField]
     private Vector3 keyRotationDirection;
 
+    private bool hasBeenPickedUp;
+
     private void Start()
     {
         keyAudio = this.GetComponent<AudioSource>();
@@ -32,8 +34,9 @@ public class KeyHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player"))
+        if (other.tag.Equals("Player") && !hasBeenPickedUp)
         {
+            hasBeenPickedUp = true;
             EventManager.TriggerEvent(Events.CollectedKey);
             keyAudio.PlayOneShot(keyAudio.clip);
             keyCollider.enabled = false;

@@ -12,6 +12,7 @@ public class PressurePlateHandler : MonoBehaviour
     private Animation plateAnim;
     private Collider plateColl;
     private AudioSource platformAudio;
+    private bool hasBeenActivated = false;
 
 
     private void Start()
@@ -24,7 +25,7 @@ public class PressurePlateHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag.Equals("Player"))
+        if (other.tag.Equals("Player") && !hasBeenActivated)
         {
             ActivatePressurePlate();
         }
@@ -33,6 +34,7 @@ public class PressurePlateHandler : MonoBehaviour
     private void ActivatePressurePlate()
     {
         //Turn Off Plate
+        hasBeenActivated = true;
         plateColl.enabled = false;
 
         platformAudio.PlayOneShot(platformAudio.clip);

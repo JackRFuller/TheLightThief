@@ -5,6 +5,7 @@ using UnityEngine;
 public class RotatingPlatformHandler : NonStaticPlatform
 {
     private RotatingPlatformAddOn platformAddOn;
+    private List<Collider> platformColliders = new List<Collider>();
 
     [Header("Movement Attributes")]
     [SerializeField]
@@ -24,6 +25,19 @@ public class RotatingPlatformHandler : NonStaticPlatform
         base.Start();
 
         platformAddOn = this.GetComponent<RotatingPlatformAddOn>();
+
+        //Find All Colliders
+        foreach (Transform child in this.transform)
+        {
+            Collider[] colliders = child.GetComponents<Collider>();
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                platformColliders.Add(colliders[i]);
+            }
+        }
+
+        platformColliders.Add(this.GetComponent<Collider>());
+        platformColliders.Add(platformCollider);
     }
 
     public void StartPlatformRotation()
@@ -37,6 +51,12 @@ public class RotatingPlatformHandler : NonStaticPlatform
                 pcMovementController.MakePlayerNonColliable();
             }
             DisablePlayerInput();
+        }
+                
+        //Turn Off Colliders
+        for (int i = 0; i < platformColliders.Count; i++)
+        {
+            platformColliders[i].enabled = false;
         }
 
         //Check if this Platform Has COnnected Platform
@@ -81,6 +101,12 @@ public class RotatingPlatformHandler : NonStaticPlatform
         platformAudio.PlayOneShot(platformAudio.clip);
 
         isMoving = false;
+
+        //Turn Off Colliders
+        for (int i = 0; i < platformColliders.Count; i++)
+        {
+            platformColliders[i].enabled = true;
+        }
 
         if (transform.localEulerAngles.z >= 360)
             transform.localEulerAngles = Vector3.zero;

@@ -9,6 +9,7 @@ public class PCMovementController : MonoBehaviour
     private Transform pcMesh;    
     private Animator pcAnim;
     private Rigidbody rb;
+    private Collider pcCollider;
 
     [Header("Movement Attributes")]
     [SerializeField]
@@ -25,6 +26,7 @@ public class PCMovementController : MonoBehaviour
         //Get Components        
         rb = this.GetComponent<Rigidbody>();
         pcAnim = pcMesh.GetComponent<Animator>();
+        pcCollider = this.GetComponent<Collider>();
     }
 
     /// <summary>
@@ -110,11 +112,14 @@ public class PCMovementController : MonoBehaviour
     public void MakePlayerNonColliable()
     {
         this.gameObject.layer = LayerMask.NameToLayer("Ghost");
+        pcCollider.enabled = false;
+
     }
 
     public void MakePlayerCollidable()
     {
         this.gameObject.layer = LayerMask.NameToLayer("Default");
+        pcCollider.enabled = true;
     }
     
     private Vector3 CalculateMeshLookAtVector()

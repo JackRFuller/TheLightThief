@@ -40,7 +40,7 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
             {
                 if(playerRot == 0)
                 {
-                    if(playerPosition.y > NodeManager.Nodes[i].y)
+                    if(Mathf.Round(playerPosition.y) > NodeManager.Nodes[i].y)
                     {
                         dist = newDist;
                         startingNode = NodeManager.Nodes[i];
@@ -48,7 +48,7 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
                 }
                 else if(playerRot == 180)
                 {
-                    if (playerPosition.y < NodeManager.Nodes[i].y)
+                    if (Mathf.Round(playerPosition.y) < NodeManager.Nodes[i].y)
                     {
                         dist = newDist;
                         startingNode = NodeManager.Nodes[i];
@@ -56,7 +56,7 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
                 }
                 else if(playerRot == 90)
                 {
-                    if (playerPosition.x < NodeManager.Nodes[i].x)
+                    if (Mathf.Round(playerPosition.x) < NodeManager.Nodes[i].x)
                     {
                         dist = newDist;
                         startingNode = NodeManager.Nodes[i];
@@ -64,13 +64,12 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
                 }
                 else if (playerRot == 270)
                 {
-                    if (playerPosition.x > NodeManager.Nodes[i].x)
+                    if (Mathf.Round(playerPosition.x) > NodeManager.Nodes[i].x)
                     {
                         dist = newDist;
                         startingNode = NodeManager.Nodes[i];
                     }
                 }
-
             }
         }
     }
@@ -95,6 +94,8 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
 
         FindClosestNode();
         //Debug.Log(playerPosition);
+
+        Debug.Log("Starting Point " + startingNode);
 
         if (!IsMouseClickOnSameAxisAsPlayer(clickPoint))
             return false;

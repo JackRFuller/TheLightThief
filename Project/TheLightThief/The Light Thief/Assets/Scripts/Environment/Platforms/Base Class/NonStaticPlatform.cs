@@ -30,7 +30,7 @@ public class NonStaticPlatform : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            Debug.Log("Parented " + this.gameObject.name);
+            //Debug.Log("Parented " + this.gameObject.name);
             //other.transform.parent = this.transform;
 
             if (pcMovementController == null)
