@@ -83,11 +83,11 @@ public class MovingPlatformPath : MonoBehaviour
         {
             if(positionIndex == 0)
             {
-                movingPlatform.StartMoving(positionOne, positionTwo);
+                movingPlatform.StartMoving(pointOne.position, pointTwo.position);
             }
             else
             {
-                movingPlatform.StartMoving(positionTwo, positionOne);
+                movingPlatform.StartMoving(pointTwo.position, pointOne.position);
             }
 
             positionIndex++;

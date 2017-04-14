@@ -91,6 +91,7 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
         //Need Orientation of the player
         playerRotation = Utilities.GetObjectZWorldRotation(this.transform);       
         playerPosition = this.transform.position;
+        Debug.Log("Player Pos" + playerPosition);
 
         FindClosestNode();
         //Debug.Log(playerPosition);
@@ -207,13 +208,19 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
         {
             player = playerPosition.y;
             target = mouseClick.y;
+            Debug.Log(player);
+            Debug.Log(target);
 
             if (player <= target + 1.0f && player >= target - 1.0f)
             {
                 return true;
             }
             else
+            {
+                Debug.Log("Not on Same Axis");
                 return false;
+            }
+               
         }        
         else
         {
@@ -225,7 +232,10 @@ public class PCPathFindingHandler : MonoSingleton<PCPathFindingHandler>
                 return true;
             }
             else
+            {
+                Debug.Log("Not on Same Axis");
                 return false;
+            }
         }
     }
 

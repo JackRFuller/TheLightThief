@@ -20,7 +20,7 @@ public class CameraMovementHandler : MonoSingleton<CameraMovementHandler>
     {
         startingPosition = this.transform.position;
         targetPosition = new Vector3(this.transform.position.x,
-                                     this.transform.position.y - 25.0f,
+                                     this.transform.position.y - 36.0f,
                                      this.transform.position.z);
 
         timeStartedMoving = Time.time;
@@ -28,9 +28,6 @@ public class CameraMovementHandler : MonoSingleton<CameraMovementHandler>
 
         //Disable Player Input
         EventManager.TriggerEvent(Events.DisablePlayerMovement);
-
-        //Load in new level
-        LevelManager.Instance.LoadInLevel();
     }
 
     private void Update()

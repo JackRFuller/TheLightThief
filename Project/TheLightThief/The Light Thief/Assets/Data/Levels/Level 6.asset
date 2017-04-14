@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fffe5345f44076c4e93f4fbf26b01463, type: 3}
   m_Name: Level 6
   m_EditorClassIdentifier: 
-  levelPrefab: {fileID: 1560392174527006, guid: d5f6fc68ee7b03b49aa6b5a836ff14d9,
+  levelPrefab: {fileID: 1011210087470700, guid: 545cf08b4317cd742ba4e9582ad47e66,
     type: 2}
-  numberOfKeysToCollect: 5
+  numberOfKeysToCollect: 1

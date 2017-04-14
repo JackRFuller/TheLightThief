@@ -8,8 +8,6 @@ public class PCStartPoint : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Enabled");
-
         player = PCPathFindingHandler.Instance.transform;
         player.position = this.transform.position;
         player.rotation = this.transform.rotation;
