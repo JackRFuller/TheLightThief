@@ -8,13 +8,7 @@ public class CameraScreenShake : MonoSingleton<CameraScreenShake>
     IEnumerator currentShakeCoroutine;
     [SerializeField]
     private Properties testProperties;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-            StartShake(testProperties);
-    }
-
+   
     public void StartShake(Properties properties)
     {
         if (currentShakeCoroutine != null)

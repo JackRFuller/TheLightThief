@@ -16,12 +16,27 @@ public class CameraMovementHandler : MonoSingleton<CameraMovementHandler>
     private bool isMoving;
     private float timeStartedMoving;
 
-    public void InitCameraMovement()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="direction">false is going down, true is going up</param>
+    public void InitCameraMovement(bool direction)
     {
         startingPosition = this.transform.position;
-        targetPosition = new Vector3(this.transform.position.x,
+
+        if(!direction)
+        {
+            targetPosition = new Vector3(this.transform.position.x,
                                      this.transform.position.y - 36.0f,
                                      this.transform.position.z);
+        }
+        else
+        {
+            targetPosition = new Vector3(this.transform.position.x,
+                                     this.transform.position.y + 36.0f,
+                                     this.transform.position.z);
+        }
+        
 
         timeStartedMoving = Time.time;
         isMoving = true;

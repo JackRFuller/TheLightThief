@@ -45,7 +45,6 @@ public class WireHandler : MonoBehaviour
 
     public void TriggerWires(SwitchHandler trigger)
     {
-        Debug.Log("Triggered Wires");
         associatedSwitch = trigger;
         cycleThroughWires = true;    
     }

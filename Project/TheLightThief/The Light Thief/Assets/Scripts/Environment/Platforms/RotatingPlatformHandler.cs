@@ -32,7 +32,10 @@ public class RotatingPlatformHandler : NonStaticPlatform
             Collider[] colliders = child.GetComponents<Collider>();
             for (int i = 0; i < colliders.Length; i++)
             {
-                platformColliders.Add(colliders[i]);
+                if(colliders[i].tag == "Node" || colliders[i].transform.parent.tag == "Node")
+                {
+                    platformColliders.Add(colliders[i]);
+                }
             }
         }
 
@@ -74,8 +77,10 @@ public class RotatingPlatformHandler : NonStaticPlatform
         platformCollider.enabled = false;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (isMoving)
             RotatePlatform();
     }

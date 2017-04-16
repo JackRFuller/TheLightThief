@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 public class MainMenuHandler : MonoSingleton<MainMenuHandler>
 {
     //Components
     private Animation mainMenuAnim;
+    private AudioSource mainMenuAudio;
 
     [Header("UI Elements - Main Menu")]
     [SerializeField]
@@ -15,10 +17,19 @@ public class MainMenuHandler : MonoSingleton<MainMenuHandler>
     private Button continueButton;
     [SerializeField]
     private Text continueText;
+    [SerializeField]
+    private GameObject sendFeedbackButton;
 
     [Header("UI Elements - End Screen")]
     [SerializeField]
     private GameObject endScreenObjs;
+
+    [Header("Pause Screen")]
+    [SerializeField]
+    private GameObject pauseScreenPrefab;
+    private GameObject pauseScreen;
+
+    public static bool isInMainMenuMode;
 
     private int currentLevel = 0;
 
@@ -26,6 +37,7 @@ public class MainMenuHandler : MonoSingleton<MainMenuHandler>
     {
         //Get Components
         mainMenuAnim = this.GetComponent<Animation>();
+        mainMenuAudio = this.GetComponent<AudioSource>();
 
         mainMenuObjs.SetActive(true);
         endScreenObjs.SetActive(false);
@@ -37,20 +49,46 @@ public class MainMenuHandler : MonoSingleton<MainMenuHandler>
         {
             DisableContinueButton();
         }
+
+        if(PlayerPrefs.GetInt("HasCompletedGame") == 1)
+        {
+            sendFeedbackButton.SetActive(true);
+        }
+        else
+        {
+            sendFeedbackButton.SetActive(false);
+        }
+
+        isInMainMenuMode = true;
     }
 
     public void NewGame()
     {
-        mainMenuAnim.Play("MainMenuUp");
-        CameraMovementHandler.Instance.InitCameraMovement();
-        LevelManager.Instance.StartUpNewGame();
-        LevelManager.Instance.LoadInLevel();
+        //Load in Pause Screen
+        if (pauseScreen == null)
+            pauseScreen = Instantiate(pauseScreenPrefab) as GameObject;
+
+        mainMenuAnim.Play("MainMenuUp");        
+        LevelManager.Instance.StartUpNewGame();        
+
+        isInMainMenuMode = false;
+        Analytics.CustomEvent("NewGame", new Dictionary<string, object>
+        {
+            {"New Game",1}
+        }
+        );
     }
 
     public void Continue()
     {
+        //Load in Pause Screen
+        if (pauseScreen == null)
+            pauseScreen = Instantiate(pauseScreenPrefab) as GameObject;
+
+        mainMenuAnim.Play("MainMenuUp");
+
         LevelManager.Instance.LoadInGame();
-        LevelManager.Instance.LoadInLevel();
+        mainMenuAudio.Play();
     }
 
     public void Credits()
@@ -111,11 +149,12 @@ public class MainMenuHandler : MonoSingleton<MainMenuHandler>
         StartCoroutine(WaitToBringInMainMenu());
     }
 
-    IEnumerator WaitToBringInMainMenu()
+    public IEnumerator WaitToBringInMainMenu()
     {
         yield return new WaitForSeconds(3.0f);
         endScreenObjs.SetActive(true);
         mainMenuAnim.Play("MainMenuDown");
+        isInMainMenuMode = true;
     }
 
     #endregion

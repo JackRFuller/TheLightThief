@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4841836990693376}
   - component: {fileID: 33433319542719036}
   - component: {fileID: 23235333273291488}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4309572052784880}
   - component: {fileID: 33843770541134728}
   - component: {fileID: 23932683632197992}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4324907667431316}
   - component: {fileID: 33455195268056200}
   - component: {fileID: 23302965905362996}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tube001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4372173146926616}
   - component: {fileID: 33507874996859548}
   - component: {fileID: 23740689597827630}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4484771070813934}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4285132307710004}
   - component: {fileID: 212816232199378578}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 4721734916685450}
   - component: {fileID: 33788765500329844}
   - component: {fileID: 23761859758240718}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 4644044401132746}
   - component: {fileID: 33020483755193244}
   - component: {fileID: 23581948176645582}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 82731128669246108}
   - component: {fileID: 111399753212634538}
   - component: {fileID: 114434721428008696}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Switch
   m_TagString: Switch
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 4429308880075770}
   - component: {fileID: 33369365698322258}
   - component: {fileID: 23201480197471212}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 4258460543812032}
   - component: {fileID: 33867162239416928}
   - component: {fileID: 23059333828772112}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 4177980935945636}
   - component: {fileID: 33757490710160070}
   - component: {fileID: 23688153229630836}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,7 +763,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 45042b03616b85144b7bb0a6c3abb4eb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0

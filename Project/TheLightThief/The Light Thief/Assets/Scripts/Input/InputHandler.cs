@@ -86,10 +86,6 @@ public class InputHandler : MonoBehaviour
                             inputAudio.PlayOneShot(inputAudio.clip);
                             
                         }
-                        else
-                        {
-                            Debug.Log("No Valid Path");
-                        }
                     }
                 }
 

@@ -585,11 +585,12 @@ PlayerSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    UNet: 1
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: 4eed28e6-d2bb-4e92-bf64-189cba2a7e7e
+  projectName: The Light Thief
+  organizationId: jrfuller
   cloudEnabled: 0
   enableNewInputSystem: 0

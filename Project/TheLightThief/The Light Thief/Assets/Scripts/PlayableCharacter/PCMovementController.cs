@@ -37,7 +37,6 @@ public class PCMovementController : MonoBehaviour
     {
         //Get Current world Rotation
         playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
-        Debug.Log(playerRotation);
 
         targetPoint = destination;
 
@@ -118,20 +117,17 @@ public class PCMovementController : MonoBehaviour
 
     public void MakePlayerCollidable()
     {
-        this.gameObject.layer = LayerMask.NameToLayer("Default");
+        this.gameObject.layer = LayerMask.NameToLayer("Player");
         pcCollider.enabled = true;
     }
     
     private Vector3 CalculateMeshLookAtVector()
     {
         Vector3 lookAtDir = Vector3.zero;
-        Debug.Log(playerRotation);
 
         Quaternion rot = new Quaternion();
         rot = Quaternion.Euler(transform.eulerAngles);
-        float zAxis = Mathf.Abs(Mathf.Round(rot.eulerAngles.z));
-
-        Debug.Log("Rot " + zAxis);
+        float zAxis = Mathf.Abs(Mathf.Round(rot.eulerAngles.z));        
 
         if(zAxis == 0)
         {

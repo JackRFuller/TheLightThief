@@ -83,7 +83,6 @@ public class DoorHandler : MonoBehaviour
     {
         if(other.tag.Equals("Player"))
         {
-            Debug.Log("Completed Level");
             Transform player = other.transform;
             player.position = new Vector3(1000, 1000, 1);
             player.parent = null;

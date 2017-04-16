@@ -16,7 +16,7 @@ public class Screenshot : MonoBehaviour
 	void Update ()
     {
         if (Input.GetKeyDown(KeyCode.F12))
-            TakeScreenShot();
+            StartCoroutine(TakeScreenShot());
 
 	}
 

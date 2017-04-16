@@ -105,6 +105,18 @@ public class SwitchHandler : MonoBehaviour
     private void TurnOnSwitchCollider()
     {
         switchCol.enabled = true;
+
+        //Turn Rotating Platforms To White
+        for (int i = 0; i < rotatingPlatforms.Length; i++)
+        {
+            rotatingPlatforms[i].ActivatePlatform();
+        }
+
+        //Turn Moving Platform Paths On
+        for(int i = 0; i < movingPlatforms.Length; i++)
+        {
+            movingPlatforms[i].ActivatePath();
+        }
     }
 
     public void IncremementTrigger()
@@ -126,8 +138,6 @@ public class SwitchHandler : MonoBehaviour
             if (movingPlatforms[i].IsMoving)
                 return;
         }
-
-        Debug.Log("Can Activate Platforms");
 
         //Activate Platforms
         for (int i = 0; i < movingPlatforms.Length; i++)

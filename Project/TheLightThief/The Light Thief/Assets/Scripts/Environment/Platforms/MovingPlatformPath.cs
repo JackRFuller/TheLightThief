@@ -13,6 +13,18 @@ public class MovingPlatformPath : MonoBehaviour
     private Transform path;
     private float pathRotation;
 
+    [Header("Path Colors")]
+    [SerializeField]
+    private Color startingColor;
+    [SerializeField]
+    private Color targetColor;
+    private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
+
+    //Lerping Color Variables
+    private float timeStartedLerpingColor;
+    private bool isLerpingColor;
+    private const float colorLerpingSpeed = 1;
+
     [Header("Positions")]
     [SerializeField]
     private Vector3 positionOne;
@@ -39,6 +51,18 @@ public class MovingPlatformPath : MonoBehaviour
 
     private void Start()
     {
+        //Get Sprite Renderers
+        foreach(Transform child in transform)
+        {
+            spriteRenderers.Add(child.GetComponent<SpriteRenderer>());
+        }
+
+        //CHange Sprite Renderer Color
+        for (int i = 0; i < spriteRenderers.Count; i++)
+        {
+            spriteRenderers[i].color = startingColor;
+        }
+
         FindConnectedPlatform();
     }
 
@@ -46,8 +70,6 @@ public class MovingPlatformPath : MonoBehaviour
     {
         Ray ray = new Ray(pointOne.position, -transform.forward); ;
         RaycastHit hit;
-
-        Debug.Log("Searching For Moving Platforms");
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
@@ -64,17 +86,46 @@ public class MovingPlatformPath : MonoBehaviour
 
         if (Physics.Raycast(rayTwo, out hit, Mathf.Infinity))
         {
-            Debug.Log(hit.collider.name);
             if (hit.collider.tag.Equals("Node"))
             {
-                Debug.Log("Found Node");
                 movingPlatform = hit.transform.parent.GetComponent<MovingPlatformHandler>();
                 movingPlatform.path = this;
                 positionIndex = 1;
                 return;
             }
+        }        
+    }
+
+    public void ActivatePath()
+    {
+        timeStartedLerpingColor = Time.time;
+        isLerpingColor = true;
+    }
+
+    private void Update()
+    {
+        if (isLerpingColor)
+            LerpPathColor();
+    }
+
+    private void LerpPathColor()
+    {
+        float timeSinceStarted = Time.time - timeStartedLerpingColor;
+        float percentageComplete = timeSinceStarted / colorLerpingSpeed;
+
+        Color newColor = Color.Lerp(startingColor, targetColor, percentageComplete);
+        for(int i = 0; i < spriteRenderers.Count; i++)
+        {
+            spriteRenderers[i].color = newColor;
         }
-        
+
+        if(percentageComplete >= 1.0f)
+        {
+            isLerpingColor = false;
+            //Get Moving Platform to Change Color
+            if(movingPlatform)
+                movingPlatform.ActivatePlatform();
+        }
     }
 
     public void ActivateMovingPlatform()
@@ -100,7 +151,9 @@ public class MovingPlatformPath : MonoBehaviour
     {
         movingPlatform = null;
         Debug.Log("removed platform");
-    } 
+    }
+
+#region EditorFunctions
 
     public void CreatePath()
     {
@@ -145,4 +198,6 @@ public class MovingPlatformPath : MonoBehaviour
 
         path.localScale = pathScale;
     }
+
+#endregion
 }

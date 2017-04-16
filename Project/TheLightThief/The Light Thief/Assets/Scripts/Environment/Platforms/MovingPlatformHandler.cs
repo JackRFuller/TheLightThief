@@ -37,7 +37,10 @@ public class MovingPlatformHandler : NonStaticPlatform
             Collider[] colliders = child.GetComponents<Collider>();
             for(int i = 0; i < colliders.Length; i++)
             {
-                platformColliders.Add(colliders[i]);
+                if(colliders[i].tag == "Node" || colliders[i].transform.parent.tag == "Node")
+                {
+                    platformColliders.Add(colliders[i]);
+                }
             }
         }
 
@@ -47,8 +50,7 @@ public class MovingPlatformHandler : NonStaticPlatform
 
     public void StartMoving(Vector3 startPosition, Vector3 endPosition)
     {
-        Debug.Log("Started Moving");
-
+        
         //check if We're Connected to a Rotating Platform
         if(this.transform.parent != null && originalParent != null)
         {
@@ -92,8 +94,10 @@ public class MovingPlatformHandler : NonStaticPlatform
         path.IsMoving = true;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (isMoving)
             MoveTowardsDestination();  
     }
