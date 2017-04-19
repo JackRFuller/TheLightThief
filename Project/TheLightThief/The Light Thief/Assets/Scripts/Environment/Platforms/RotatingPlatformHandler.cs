@@ -20,6 +20,18 @@ public class RotatingPlatformHandler : NonStaticPlatform
     private bool isMoving;
     public bool IsMoving { get { return isMoving; } }
 
+    private void OnEnable()
+    {
+        EventManager.StartListening(Events.TurnOnPlatforms, TurnOnColliders);
+        EventManager.StartListening(Events.TurnOffPlatforms, TurnOffColliders);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(Events.TurnOnPlatforms, TurnOnColliders);
+        EventManager.StopListening(Events.TurnOffPlatforms, TurnOffColliders);
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -55,12 +67,8 @@ public class RotatingPlatformHandler : NonStaticPlatform
             }
             DisablePlayerInput();
         }
-                
-        //Turn Off Colliders
-        for (int i = 0; i < platformColliders.Count; i++)
-        {
-            platformColliders[i].enabled = false;
-        }
+
+        EventManager.TriggerEvent(Events.TurnOffPlatforms);
 
         //Check if this Platform Has COnnected Platform
         if (platformAddOn)
@@ -100,6 +108,24 @@ public class RotatingPlatformHandler : NonStaticPlatform
         }
     }
 
+    private void TurnOffColliders()
+    {
+        //Turn ON Colliders
+        for (int i = 0; i < platformColliders.Count; i++)
+        {
+            platformColliders[i].enabled = false;
+        }
+    }
+
+    private void TurnOnColliders()
+    {
+        //Turn ON Colliders
+        for (int i = 0; i < platformColliders.Count; i++)
+        {
+            platformColliders[i].enabled = true;
+        }
+    }
+
     private void StopPlatformRotation()
     {
         platformCollider.enabled = true;
@@ -107,11 +133,8 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
         isMoving = false;
 
-        //Turn Off Colliders
-        for (int i = 0; i < platformColliders.Count; i++)
-        {
-            platformColliders[i].enabled = true;
-        }
+        EventManager.TriggerEvent(Events.TurnOnPlatforms);
+
 
         if (transform.localEulerAngles.z >= 360)
             transform.localEulerAngles = Vector3.zero;

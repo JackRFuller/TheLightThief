@@ -80,7 +80,7 @@ public class NonStaticPlatform : MonoBehaviour
         {
             isLerpingColor = false;
         }
-    }
+    }   
 
     protected void OnTriggerEnter(Collider other)
     {

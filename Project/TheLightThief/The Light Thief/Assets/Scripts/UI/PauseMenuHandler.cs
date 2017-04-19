@@ -33,13 +33,11 @@ public class PauseMenuHandler : MonoBehaviour {
                 }
             }
         }
-
-		
 	}
 
     public void Resume()
     {
-        pauseMenuObjs.SetActive(true);
+        pauseMenuObjs.SetActive(false);
     }
  
     public void QuitGame()
