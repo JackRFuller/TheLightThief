@@ -6,7 +6,7 @@ public class PressurePlateHandler : MonoBehaviour
 {
     [Header("Switches")]
     [SerializeField]
-    private SwitchHandler[] switches;
+    private Switch[] switches;
 
     //Components
     private Animation plateAnim;

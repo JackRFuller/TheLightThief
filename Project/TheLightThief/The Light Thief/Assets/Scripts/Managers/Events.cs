@@ -20,5 +20,9 @@ public class Events
     //Used to determine whether the player can start moving or not
     public static string EnablePlayerMovement = "EnablePlayerMovement";
     public static string DisablePlayerMovement = "DisablePlayerMovement";
+
+    //Called when platforms start and stop moving
+    public static string StartedMoving = "StartedMoving";
+    public static string EndedMoving = "EndedMoving";
 	
 }

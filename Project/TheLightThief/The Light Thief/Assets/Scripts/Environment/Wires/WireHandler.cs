@@ -30,7 +30,7 @@ public class WireHandler : MonoBehaviour
     public List<Image> wireImages;
     private bool cycleThroughWires;
     private int wireIndex = 0;
-    private SwitchHandler associatedSwitch; //Used to trigger switch
+    private Switch associatedSwitch; //Used to trigger switch
 
     private void Start()
     {
@@ -43,7 +43,7 @@ public class WireHandler : MonoBehaviour
         }
     }
 
-    public void TriggerWires(SwitchHandler trigger)
+    public void TriggerWires(Switch trigger)
     {
         associatedSwitch = trigger;
         cycleThroughWires = true;    
@@ -72,7 +72,7 @@ public class WireHandler : MonoBehaviour
                 else
                 {
                     cycleThroughWires = false;
-                    associatedSwitch.IncremementTrigger();
+                    associatedSwitch.IncrementTriggers();
                 }
             }
         }

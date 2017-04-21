@@ -63,11 +63,6 @@ public class SwitchHandler : MonoBehaviour
         timeStarted = Time.time;
         isActivating = true;
 
-        for(int i = 0; i < wires.Length; i++)
-        {
-            wires[i].TriggerWires(this);
-        }
-
         switchAudio.PlayOneShot(startUpSFX);        
     }
 
@@ -148,9 +143,7 @@ public class SwitchHandler : MonoBehaviour
         for (int i = 0; i < rotatingPlatforms.Length; i++)
         {
             rotatingPlatforms[i].StartPlatformRotation();
-        }
-
-        
+        }       
 
         if (!switchAnim.isPlaying)
             switchAnim.Play();

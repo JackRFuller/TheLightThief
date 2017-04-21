@@ -64,11 +64,14 @@ public class RotatingPlatformHandler : NonStaticPlatform
             {
                 pcMovementController.KillPlayerMovement();
                 pcMovementController.MakePlayerNonColliable();
+
+                EventManager.TriggerEvent(Events.StartedMoving);
             }
             DisablePlayerInput();
         }
 
         EventManager.TriggerEvent(Events.TurnOffPlatforms);
+        
 
         //Check if this Platform Has COnnected Platform
         if (platformAddOn)
@@ -140,7 +143,11 @@ public class RotatingPlatformHandler : NonStaticPlatform
             transform.localEulerAngles = Vector3.zero;
 
         if(pcMovementController)
+        {
             pcMovementController.MakePlayerCollidable();
+            EventManager.TriggerEvent(Events.EndedMoving);
+        }
+            
 
         EnablePlayerInput();
         EventManager.TriggerEvent(Events.RecalibrateNodes);
