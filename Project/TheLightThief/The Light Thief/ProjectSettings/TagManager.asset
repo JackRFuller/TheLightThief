@@ -8,6 +8,7 @@ TagManager:
   - Switch
   - RayPoint
   - Key
+  - Enemy
   layers:
   - Default
   - TransparentFX

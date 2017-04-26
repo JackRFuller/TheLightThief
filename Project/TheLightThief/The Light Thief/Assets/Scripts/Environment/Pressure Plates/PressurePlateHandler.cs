@@ -25,7 +25,7 @@ public class PressurePlateHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player") && !hasBeenActivated)
+        if ((other.tag.Equals("Player") || other.tag.Equals("Enemy"))  && !hasBeenActivated)
         {
             ActivatePressurePlate();
         }

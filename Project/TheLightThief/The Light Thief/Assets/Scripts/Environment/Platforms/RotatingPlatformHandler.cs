@@ -20,6 +20,8 @@ public class RotatingPlatformHandler : NonStaticPlatform
     private bool isMoving;
     public bool IsMoving { get { return isMoving; } }
 
+    private bool hasSentMessageToNPCs;
+
     private void OnEnable()
     {
         EventManager.StartListening(Events.TurnOnPlatforms, TurnOnColliders);
@@ -70,6 +72,13 @@ public class RotatingPlatformHandler : NonStaticPlatform
             DisablePlayerInput();
         }
 
+        //Check if NPC is on Platform
+        for(int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].npcState = NPCMovementHandler.NPCState.OnMovingPlatform;
+            enemies[i].KillMovement();
+        }
+
         EventManager.TriggerEvent(Events.TurnOffPlatforms);
         
 
@@ -105,7 +114,18 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
         transform.rotation = newRot;
 
-        if(percentageComplete >= 1.0f)
+        if(percentageComplete >= 0.5f)
+        {
+            if (!hasSentMessageToNPCs)
+            {
+                EventManager.TriggerEvent(Events.RecalibrateNodes);
+                hasSentMessageToNPCs = true;
+            }
+        }
+
+        
+
+        if (percentageComplete >= 1.0f)
         {
             StopPlatformRotation();
         }
@@ -131,6 +151,8 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
     private void StopPlatformRotation()
     {
+        hasSentMessageToNPCs = false;
+
         platformCollider.enabled = true;
         platformAudio.PlayOneShot(platformAudio.clip);
 
@@ -147,7 +169,13 @@ public class RotatingPlatformHandler : NonStaticPlatform
             pcMovementController.MakePlayerCollidable();
             EventManager.TriggerEvent(Events.EndedMoving);
         }
-            
+
+        //Check if NPC is on Platform
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].npcState = NPCMovementHandler.NPCState.Moving;
+            enemies[i].KillMovement();
+        }        
 
         EnablePlayerInput();
         EventManager.TriggerEvent(Events.RecalibrateNodes);

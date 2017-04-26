@@ -45,6 +45,9 @@ public class NodeManager : MonoSingleton<NodeManager>
         debugNodes = nodes;
 
         EventManager.TriggerEvent(Events.EnablePlayerMovement);
+        EventManager.TriggerEvent(Events.StartNPCMovement);
+
+        Debug.Log("Hit");
     }
 
 }

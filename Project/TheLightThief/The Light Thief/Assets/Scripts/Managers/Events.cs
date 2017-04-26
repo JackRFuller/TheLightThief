@@ -24,5 +24,9 @@ public class Events
     //Called when platforms start and stop moving
     public static string StartedMoving = "StartedMoving";
     public static string EndedMoving = "EndedMoving";
+
+    //NPC================================================================================================================
+    public static string StartNPCMovement = "StartNPCMovement";
+    public static string NPCRecalibratePath = "NPCRecalibratePath";   
 	
 }

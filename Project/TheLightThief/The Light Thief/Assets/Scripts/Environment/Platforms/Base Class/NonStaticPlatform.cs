@@ -22,6 +22,9 @@ public class NonStaticPlatform : MonoBehaviour
     private bool isLerpingColor;
     private float colorLerpingSpeed = 1;
 
+    //Enemies
+    protected List<NPCMovementHandler> enemies;
+
     protected virtual void Start()
     {
         //Get Components
@@ -33,6 +36,9 @@ public class NonStaticPlatform : MonoBehaviour
         newMaterial = platformMeshes[0].material;
         newMaterial.color = startingColor;
         newMaterial.SetColor("_EmissionColor", Color.black);
+
+        //Setup Enemy List
+        enemies = new List<NPCMovementHandler>();
 
         for(int i = 0; i < platformMeshes.Length; i++)
         {
@@ -96,6 +102,15 @@ public class NonStaticPlatform : MonoBehaviour
 
             hasPlayerOnPlatform = true;
         }
+
+        if(other.tag.Equals("Enemy"))
+        {
+            NPCMovementHandler enemy = other.GetComponent<NPCMovementHandler>();
+            if(!enemies.Contains(enemy))
+            {
+                enemies.Add(enemy);
+            }
+        }
     }
 
     protected void OnTriggerExit(Collider other)
@@ -104,6 +119,13 @@ public class NonStaticPlatform : MonoBehaviour
         {
             //other.transform.parent = null;
             hasPlayerOnPlatform = false;            
+        }
+
+        if(other.tag.Equals("Enemy"))
+        {
+            NPCMovementHandler enemy = other.GetComponent<NPCMovementHandler>();
+            enemies.Remove(enemy);
+            enemies.TrimExcess();
         }
     }
 }
