@@ -78,10 +78,12 @@ public class InputHandler : MonoBehaviour
                             playerWaypoint.transform.position = new Vector3(hit.point.x,
                                                                             hit.point.y,
                                                                             playerWaypoint.transform.position.z);
-                            playerWaypoint.GetComponent<Animation>().Play(); 
+                            playerWaypoint.GetComponent<Animation>().Play();
 
                             //Let PC Move
-                            pcMovementController.MoveToPosition(hit.point);
+                            pcMovementController.isMoving = true;
+                            pcMovementController.targetPoint = hit.point;
+                            pcMovementController.MoveToPosition();
 
                             inputAudio.PlayOneShot(inputAudio.clip);
                             

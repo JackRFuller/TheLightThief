@@ -89,6 +89,9 @@ public class NPCMovementHandler : BaseMonoBehaviour
         lastSqrMag = Mathf.Infinity;
         desiredVelocity = directionalVector;
         isMoving = true;
+        if(!NPCAnim)
+            NPCAnim = NPCMesh.GetComponent<Animator>();
+
         NPCAnim.SetInteger("movement", 1);
 
     }
@@ -235,6 +238,11 @@ public class NPCMovementHandler : BaseMonoBehaviour
         if(other.tag.Equals("Node"))
         {
             this.transform.parent = other.transform;
+        }
+
+        if(other.tag.Equals("BreathingRing"))
+        {
+            Debug.Log("Detected PC");
         }
     }
 

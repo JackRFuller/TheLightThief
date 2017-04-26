@@ -9,6 +9,7 @@ TagManager:
   - RayPoint
   - Key
   - Enemy
+  - BreathingRing
   layers:
   - Default
   - TransparentFX

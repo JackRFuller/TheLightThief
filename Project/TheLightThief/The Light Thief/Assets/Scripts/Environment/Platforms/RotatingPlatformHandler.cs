@@ -123,8 +123,6 @@ public class RotatingPlatformHandler : NonStaticPlatform
             }
         }
 
-        
-
         if (percentageComplete >= 1.0f)
         {
             StopPlatformRotation();

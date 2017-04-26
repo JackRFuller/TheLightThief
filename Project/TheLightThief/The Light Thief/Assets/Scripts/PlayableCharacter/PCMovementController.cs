@@ -13,10 +13,17 @@ public class PCMovementController : MonoBehaviour
 
     [Header("Movement Attributes")]
     [SerializeField]
-    private float speed;
-    private Vector3 targetPoint;
+    private float movespeed;
+    [SerializeField]
+    private float sneakSpeed;
+    private float currentSpeed;
+    [HideInInspector]
+    public Vector3 targetPoint;
+    [HideInInspector]
+    public bool isMoving;
     private Vector3 desiredVelocity;
     private float lastSqrMag;
+   
 
     //Rotation
     private float playerRotation;
@@ -33,42 +40,52 @@ public class PCMovementController : MonoBehaviour
     /// Called when the PC Path Finding Handler gets a valid path
     /// </summary>
     /// <param name="destination"></param>
-    public void MoveToPosition(Vector3 destination)
+    public void MoveToPosition()
     {
-        //Get Current world Rotation
-        playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
-
-        targetPoint = destination;
-
-        //Adjust Target Based On Rotation & Work Out Look Rotation
-        Vector3 lookDirection = Vector3.zero;
-
-        if(playerRotation == 0 || playerRotation == 180)
+        if(isMoving)
         {
-            targetPoint = new Vector3(targetPoint.x,
-                                      this.transform.position.y,
-                                      this.transform.position.z);
-        }
-        else
-        {
-            targetPoint = new Vector3(this.transform.position.x,
-                                      targetPoint.y,
-                                      this.transform.position.z);           
-        }
+            //Get Current world Rotation
+            playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
 
-        //Look At Point
-        pcMesh.localRotation = Quaternion.Euler(CalculateMeshLookAtVector());
+            //Adjust Target Based On Rotation & Work Out Look Rotation
+            Vector3 lookDirection = Vector3.zero;
 
-        //Calculate Movement
-        Vector3 directionalVector = (targetPoint - this.transform.position).normalized * speed;
-        lastSqrMag = Mathf.Infinity;
-        desiredVelocity = directionalVector;
+            if (playerRotation == 0 || playerRotation == 180)
+            {
+                targetPoint = new Vector3(targetPoint.x,
+                                          this.transform.position.y,
+                                          this.transform.position.z);
+            }
+            else
+            {
+                targetPoint = new Vector3(this.transform.position.x,
+                                          targetPoint.y,
+                                          this.transform.position.z);
+            }
+
+            //Look At Point
+            pcMesh.localRotation = Quaternion.Euler(CalculateMeshLookAtVector());
+
+            if (pcAnim.GetBool("isSneaking"))
+            {
+                currentSpeed = sneakSpeed;
+            }
+            else
+            {
+                currentSpeed = movespeed;
+            }
+
+            //Calculate Movement
+            Vector3 directionalVector = (targetPoint - this.transform.position).normalized * currentSpeed;
+            lastSqrMag = Mathf.Infinity;
+            desiredVelocity = directionalVector;
+        }       
     }
 
     private void Update()
     {
         CalculateMovementVector();
-    }
+    }   
 
     private void CalculateMovementVector()
     {
@@ -77,6 +94,7 @@ public class PCMovementController : MonoBehaviour
         if(sqrMag > lastSqrMag)
         {
             desiredVelocity = Vector3.zero;
+            isMoving = false;
         }
 
         lastSqrMag = sqrMag;
