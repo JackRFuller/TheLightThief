@@ -136,7 +136,8 @@ public class Switch : BaseMonoBehaviour
 
     protected IEnumerator WaitToReCalibrateNodePositions()
     {
-        yield return new WaitForSeconds(0.2f);        
+        yield return new WaitForSeconds(0.2f);
+        EventManager.TriggerEvent(Events.RecalibrateNodes);
         PCPathFindingHandler.Instance.CheckIfPathIsValid();
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     //Componets
+    private CameraStateController cameraStateController;
     private PCMovementController pcMovementController;
     private AudioSource inputAudio;
 
@@ -36,6 +37,7 @@ public class InputHandler : MonoBehaviour
     private void Start()
     {
         //Get Components
+        cameraStateController = this.GetComponent<CameraStateController>();
         pcMovementController = PCPathFindingHandler.Instance.GetComponent<PCMovementController>();
         mainCamera = this.GetComponent<Camera>();
         inputAudio = this.GetComponent<AudioSource>();
@@ -50,6 +52,16 @@ public class InputHandler : MonoBehaviour
     private void Update()
     {
         GetMouseInput();
+
+        GetKeyboardInput();
+    }
+
+    private void GetKeyboardInput()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            EventManager.TriggerEvent(Events.Invert);
+        }
     }
 
     private void GetMouseInput()
@@ -79,6 +91,8 @@ public class InputHandler : MonoBehaviour
                                                                             hit.point.y,
                                                                             playerWaypoint.transform.position.z);
                             playerWaypoint.GetComponent<Animation>().Play();
+
+                            cameraStateController.StartFollowingPlayer();
 
                             //Let PC Move
                             pcMovementController.isMoving = true;

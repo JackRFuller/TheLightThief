@@ -18,6 +18,16 @@ public class CameraFollowState : ICameraState
     private float smoothLookVelocityX;
     private float smoothVelocityY;
 
+    //Lerping Variables
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private float timeStartedLerping;
+    private float lerpSpeed = 0.5f;
+    private bool isLerping;
+
+    private bool setupCam;
+    private Vector3 velocity = Vector3.zero;
+
     public struct FocusArea
     {
         public Vector2 centre;
@@ -67,35 +77,66 @@ public class CameraFollowState : ICameraState
             velocity = new Vector2(shiftX, shiftY);
         }
 
-    }   
+    }
 
     public void OnEnterState()
     {
-        focusArea = new FocusArea(camera.Target.bounds, camera.FocusAreaSize);
-        //Vector2 focusPosition = focusArea.centre;
-        //camera.transform.position = (Vector3)focusPosition + Vector3.forward * -10.0f;
+        //Init Lerp To Player's Center Point
+        startPosition = camera.transform.position;
+        targetPosition = new Vector3(camera.Target.transform.position.x, camera.Target.transform.position.y, -10.0f);
+
+        timeStartedLerping = Time.time;
+        //isLerping = true;
+
+        if (!setupCam)
+        {
+            setupCam = true;
+            focusArea = new FocusArea(camera.Target.bounds, camera.FocusAreaSize);
+        }
     }
 
     public void OnUpdateState()
     {
+        //if(isLerping)
+        //{
+        //    float timeSinceStarted = Time.time - timeStartedLerping;
+        //    float percentageComplete = timeSinceStarted / lerpSpeed;
 
+        //    Vector3 newPos = Vector3.Lerp(startPosition, targetPosition, percentageComplete);
+
+        //    camera.transform.position = newPos;
+
+        //    if(percentageComplete >= 1.0f)
+        //    {
+        //        isLerping = false;
+        //    }
+        //}
+       
     }
 
     public void OnLateUpdateState()
     {
         focusArea.Update(camera.Target.bounds);
-        Vector2 focusPosition = focusArea.centre;
 
-        if(focusArea.velocity.x != 0)
+        if (focusArea.velocity.x != 0)
         {
-            lookAheadDirX = Mathf.Sin(focusArea.velocity.x);
+            lookAheadDirX = Mathf.Sign(focusArea.velocity.x);
         }
 
-       // //targetLookAheadX = lookAheadDirX * camera.LookAheadDistX;
-        //currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, camera.LookSmoothTimeX);
+        Vector2 midPoint = ((Vector2)camera.transform.position - focusArea.centre) * 0.5f + focusArea.centre;
 
-       // focusPosition += Vector2.right * currentLookAheadX;
-        camera.transform.position = (Vector3)focusPosition + Vector3.forward * -10.0f;
+        Vector2 focusPosition = focusArea.centre + Vector2.up * camera.VerticalOffset;
+
+       
+        currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, camera.LookSmoothTimeX);
+
+        //focusPosition.x = Mathf.SmoothDamp(camera.transform.position.x, focusPosition.x, ref smoothVelocityY, camera.VerticalSmoothTime);
+        focusPosition.y = Mathf.SmoothDamp(camera.transform.position.y, focusPosition.y, ref smoothVelocityY, camera.VerticalSmoothTime);
+        focusPosition += Vector2.right * currentLookAheadX;
+
+        Vector3 newPos = (Vector3)focusPosition + Vector3.forward * -10.0f;
+
+        camera.transform.position = Vector3.SmoothDamp(camera.transform.position, newPos, ref velocity, 0.2f);
     }    
 
     public void OnExitState(ICameraState newState)

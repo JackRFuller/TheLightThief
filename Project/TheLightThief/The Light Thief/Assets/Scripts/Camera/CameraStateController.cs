@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class CameraStateController : BaseMonoBehaviour
 {
+    private static CameraStateController instance;
+    public static CameraStateController Instance { get { return instance; } }
+
     //States
     public CameraFollowState followState;
     public ICameraState trackState;
+    public ICameraState shakeState;
+
     public ICameraState CurrentState;
     private ICameraState lastState;
 
@@ -31,16 +36,30 @@ public class CameraStateController : BaseMonoBehaviour
     private Collider target;
     public Collider Target { get { return target; } }
 
+    //Camera Shake
+    private CameraShakeProperties shakeProperties;
+    public CameraShakeProperties ShakeProperties { get { return shakeProperties; } }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnEnable()
     {
-        EventManager.StartListening(Events.StartedMoving, StartTrackingPlayer);
-        EventManager.StartListening(Events.EndedMoving, StartFollowingPlayer);
+        EventManager.StartListening(Events.StartedMoving, StartTrackingPlayer);       
     }
 
     private void OnDisable()
     {
-        EventManager.StopListening(Events.StartedMoving, StartTrackingPlayer);
-        EventManager.StopListening(Events.EndedMoving, StartFollowingPlayer);
+        EventManager.StopListening(Events.StartedMoving, StartTrackingPlayer);        
     }  
 
     private void Start()
@@ -51,6 +70,7 @@ public class CameraStateController : BaseMonoBehaviour
         //Create States
         trackState = new CameraTrackState(this);
         followState = new CameraFollowState(this);
+        shakeState = new CameraShakeState(this);
 
         //Set Initial State
         CurrentState = followState;
@@ -71,19 +91,23 @@ public class CameraStateController : BaseMonoBehaviour
 
     public override void UpdateLate()
     {
-        if(CurrentState == followState)
+        if(lastState == followState)
         {
             followState.OnLateUpdateState();
         }
     }
 
-    private void StartTrackingPlayer()
+    public void StartTrackingPlayer()
     {
         CurrentState = trackState;
     }
 
-    private void StartFollowingPlayer()
+    public void StartFollowingPlayer()
     {
-        CurrentState = followState;
+        if(CurrentState != shakeState)
+        {
+            CurrentState = followState;
+        }
+        
     }
 }

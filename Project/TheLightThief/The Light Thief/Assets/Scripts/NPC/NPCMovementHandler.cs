@@ -25,12 +25,23 @@ public class NPCMovementHandler : BaseMonoBehaviour
     private bool isMoving;
 
     private float NPCRotation;
-    
+
+    [Header("Attack")]
+    [SerializeField]
+    private GameObject soundWavePrefab;
+    [SerializeField]
+    private Transform soundWaveSpawnPoint;
+    private GameObject soundWave;
+    [SerializeField]
+    private CameraScreenShake.Properties attackScreenShake;
+
+    [HideInInspector]
     public NPCState npcState;
     public enum NPCState
     {
         OnMovingPlatform,
         Moving,
+        Attacking,
     }
 
     private void OnEnable()
@@ -242,8 +253,29 @@ public class NPCMovementHandler : BaseMonoBehaviour
 
         if(other.tag.Equals("BreathingRing"))
         {
-            Debug.Log("Detected PC");
+            if(npcState != NPCState.Attacking)
+            {
+                StartCoroutine(Attack());
+            }
         }
     }
+
+    private IEnumerator Attack()
+    {
+        npcState = NPCState.Attacking;
+        KillMovement();
+        NPCAnim.SetBool("isAttacking", true);
+        yield return new WaitForSeconds(1.1f);
+
+        //Spawn in Sound Wave Ring
+        soundWave = Instantiate(soundWavePrefab, soundWaveSpawnPoint.position, Quaternion.identity) as GameObject;
+        CameraScreenShake.Instance.StartShake(attackScreenShake);
+
+        yield return new WaitForSeconds(1.5f);
+        NPCAnim.SetBool("isAttacking", false);
+        npcState = NPCState.Moving;
+        RestartMovement();
+    }
+    
 
 }

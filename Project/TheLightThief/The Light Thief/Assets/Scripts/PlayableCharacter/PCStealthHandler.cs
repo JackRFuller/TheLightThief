@@ -12,26 +12,16 @@ public class PCStealthHandler : BaseMonoBehaviour
 
     [Header("Breathing Ring")]
     [SerializeField]
-    private Animation breathingRingAnim;
-    [SerializeField]
-    private AnimationClip[] breathingRingAnimClips;
+    private GameObject breathingRingPrefab;    
+
+    private GameObject breathingRing;
+    private BreathingRingHandler breathingRingHandler;
 
     [Header("Breathing Ring Movement")]
     [SerializeField]
-    private Transform breathingRing;
+    private Transform followPoint;
     [SerializeField]
-    private Vector3 smallestSize;
-    [SerializeField]
-    private Vector3 largestSize;
-    [SerializeField]
-    private float breathingSpeed;
-    [SerializeField]
-    private AnimationCurve breathingCurve;
-    private Vector3 startSize;
-    private Vector3 targetSize;
-    private float timeStartedBreathing;
-    private float breathingIndex;
-    
+    private LerpingAttributes lerpValues;
 
     private bool hasReAdjustedSpeed;
 
@@ -50,53 +40,48 @@ public class PCStealthHandler : BaseMonoBehaviour
             enemies.Add(NPCs[i].transform);
         }
 
-        InitBreathing();
-    }
+        //Create Breathing Ring
+        if (enemies.Count > 0)
+        {
+            breathingRing = Instantiate(breathingRingPrefab) as GameObject;
+            breathingRingHandler = breathingRing.GetComponent<BreathingRingHandler>();
+            breathingRingHandler.SetupBreathingRing(followPoint, lerpValues);
+        }         
+    }    
 
     public override void UpdateNormal()
     {
         if(enemies.Count > 0)
         {
             DetectEnemy();
-
-            Breath();
         }
         
-    }
+    }   
 
-    private void InitBreathing()
+    private void DetectHoldingBreathInput()
     {
-        startSize = breathingRing.localScale;
-        if(breathingIndex == 0)
+        if(enemyAnim.GetBool("isSneaking"))
         {
-            targetSize = largestSize;
-        }
-        else
-        {
-            targetSize = smallestSize;
-        }
+            if(Input.GetMouseButton(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
-        timeStartedBreathing = Time.time;
+                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                {
+                    if(hit.collider.tag.Equals("Player"))
+                    {
+
+                    }
+                }
+            }
+        }
     }
 
-    private void Breath()
+    private void HoldBreath()
     {
-        float timeSinceStarted = Time.time - timeStartedBreathing;
-        float percentageComplete = timeSinceStarted / breathingSpeed;
 
-        Vector3 newSize = Vector3.Lerp(startSize, targetSize, breathingCurve.Evaluate(percentageComplete));
-
-        breathingRing.localScale = newSize;
-
-        if(percentageComplete >= 1.0f)
-        {
-            breathingIndex++;
-            if (breathingIndex > 1)
-                breathingIndex = 0;
-
-            InitBreathing();
-        }
-    }
+    }  
 
     private void DetectEnemy()
     {
@@ -113,8 +98,7 @@ public class PCStealthHandler : BaseMonoBehaviour
 
             if (!hasReAdjustedSpeed)
             {
-                breathingRingAnim.clip = breathingRingAnimClips[0];
-                breathingRingAnim.Play();
+                breathingRingHandler.FadeInRing();
 
                 pcMovementHandler.MoveToPosition();
                 hasReAdjustedSpeed = true;
@@ -126,8 +110,7 @@ public class PCStealthHandler : BaseMonoBehaviour
 
             if (hasReAdjustedSpeed)
             {
-                breathingRingAnim.clip = breathingRingAnimClips[1];
-                breathingRingAnim.Play();
+                breathingRingHandler.FadeOutRing();
 
                 pcMovementHandler.MoveToPosition();
                 hasReAdjustedSpeed = false;

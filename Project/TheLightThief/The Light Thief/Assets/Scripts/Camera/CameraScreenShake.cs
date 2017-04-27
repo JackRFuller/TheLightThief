@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class CameraScreenShake : MonoSingleton<CameraScreenShake>
 {
+    [SerializeField]
+    private CameraStateController cameraStateController;
+
     const float maxAngle = 10f;
     IEnumerator currentShakeCoroutine;
     [SerializeField]
     private Properties testProperties;
-   
+    
     public void StartShake(Properties properties)
     {
+        //Fix Camera in Place
+        cameraStateController.StartTrackingPlayer();
+
         if (currentShakeCoroutine != null)
         {
             StopCoroutine(currentShakeCoroutine);
@@ -61,6 +67,8 @@ public class CameraScreenShake : MonoSingleton<CameraScreenShake>
 
             yield return null;
         } while (moveDistance > 0);
+
+        cameraStateController.StartFollowingPlayer();
     }
 
     float DampingCurve(float x, float dampingPercent)

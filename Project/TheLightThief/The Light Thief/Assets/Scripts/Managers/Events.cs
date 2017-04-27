@@ -27,6 +27,9 @@ public class Events
 
     //NPC================================================================================================================
     public static string StartNPCMovement = "StartNPCMovement";
-    public static string NPCRecalibratePath = "NPCRecalibratePath";   
+    public static string NPCRecalibratePath = "NPCRecalibratePath";
+
+    //Inversion
+    public static string Invert = "Invert";
 	
 }
