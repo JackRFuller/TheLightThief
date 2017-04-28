@@ -57,7 +57,11 @@ public class RotatingPlatformHandler : NonStaticPlatform
         platformColliders.Add(platformCollider);
     }
 
-    public void StartPlatformRotation()
+    /// <summary>
+    /// STarts Rotating the Platform
+    /// </summary>
+    /// <param name="direction"> 0 = rotate right, 1 = rotate left</param>
+    public void StartPlatformRotation(int direction)
     {
         //Check if PC is on Platform
         if(hasPlayerOnPlatform)
@@ -88,9 +92,23 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
         startingRot = transform.rotation;
 
-        targetRot = Quaternion.Euler(new Vector3(transform.localEulerAngles.x,
+        Vector3 rot = Vector3.zero;
+
+        if(direction == 0)
+        {
+            rot = new Vector3(transform.localEulerAngles.x,
                                                  transform.localEulerAngles.y,
-                                                 transform.localEulerAngles.z + 90.0f));
+                                                 transform.localEulerAngles.z - 90.0f);
+        }
+        else
+        {
+            rot = new Vector3(transform.localEulerAngles.x,
+                                                    transform.localEulerAngles.y,
+                                                    transform.localEulerAngles.z + 90.0f);
+        }
+
+
+        targetRot = Quaternion.Euler(rot);
 
         timeStarted = Time.time;
         isMoving = true;

@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4371583790110770}
   - component: {fileID: 111260618686865478}
+  - component: {fileID: 114870110907051734}
   m_Layer: 0
   m_Name: PlayerWaypoint
   m_TagString: Untagged
@@ -125,3 +126,17 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114870110907051734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1472483344994760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb29b8573e20a04191cb58900b8dd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointMesh: {fileID: 23317634634161026}
+  whiteMat: {fileID: 2100000, guid: 106830bd0693bcc40b896457d991d708, type: 2}
+  blackMat: {fileID: 2100000, guid: e30dcd145041ae54590faedff48409eb, type: 2}

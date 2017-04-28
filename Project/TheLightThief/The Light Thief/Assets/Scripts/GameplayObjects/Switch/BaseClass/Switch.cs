@@ -8,8 +8,8 @@ public class Switch : BaseMonoBehaviour
     [Header("Components")]
     [SerializeField]
     protected MeshRenderer switchMesh;   
-    private Collider switchCollider;
-    private AudioSource switchAudio;
+    protected Collider switchCollider;
+    protected AudioSource switchAudio;
 
     [Header("Associated Platforms")]
     [SerializeField]
@@ -32,12 +32,13 @@ public class Switch : BaseMonoBehaviour
     private Material newMaterial;
     private Color newColor;
 
-    private int numOfTriggers;
+    protected int numOfTriggers;
 
     protected virtual void Start()
     {
         switchCollider = this.GetComponent<Collider>();
         switchAudio = this.GetComponent<AudioSource>();
+
 
         switchCollider.enabled = false;
     }
@@ -82,7 +83,7 @@ public class Switch : BaseMonoBehaviour
     /// <summary>
     /// Used for turning switch collider on
     /// </summary>
-    public void IncrementTriggers()
+    public virtual void IncrementTriggers()
     {
         numOfTriggers++;
         if(numOfTriggers == 2)
@@ -125,10 +126,10 @@ public class Switch : BaseMonoBehaviour
             movingPlatforms[i].ActivateMovingPlatform();
         }
 
-        for (int i = 0; i < rotatingPlatforms.Length; i++)
-        {
-            rotatingPlatforms[i].StartPlatformRotation();
-        }        
+        //for (int i = 0; i < rotatingPlatforms.Length; i++)
+        //{
+        //    rotatingPlatforms[i].StartPlatformRotation();
+        //}        
         
         CameraScreenShake.Instance.StartShake(screenShakeProperties);
 

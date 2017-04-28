@@ -10,6 +10,8 @@ TagManager:
   - Key
   - Enemy
   - BreathingRing
+  - RotateCCW
+  - RotateCW
   layers:
   - Default
   - TransparentFX

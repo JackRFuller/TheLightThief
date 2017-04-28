@@ -140,10 +140,10 @@ public class SwitchHandler : MonoBehaviour
             movingPlatforms[i].ActivateMovingPlatform();
         }
 
-        for (int i = 0; i < rotatingPlatforms.Length; i++)
-        {
-            rotatingPlatforms[i].StartPlatformRotation();
-        }       
+        //for (int i = 0; i < rotatingPlatforms.Length; i++)
+        //{
+        //    rotatingPlatforms[i].StartPlatformRotation();
+        //}       
 
         if (!switchAnim.isPlaying)
             switchAnim.Play();

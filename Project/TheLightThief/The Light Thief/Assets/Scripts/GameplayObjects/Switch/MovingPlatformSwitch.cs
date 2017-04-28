@@ -31,6 +31,7 @@ public class MovingPlatformSwitch : Switch
                 animIndex = 0;
         }
 
+
         StartCoroutine(WaitToReCalibrateNodePositions());
 
     }

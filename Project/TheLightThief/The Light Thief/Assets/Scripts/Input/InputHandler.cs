@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputHandler : MonoBehaviour
+public class InputHandler : BaseMonoBehaviour
 {
     //Componets
     private CameraStateController cameraStateController;
@@ -13,9 +13,23 @@ public class InputHandler : MonoBehaviour
 
     private bool allowPlayerMovement = true;
 
-    [Header("Cursor")]
+    [Header("Base Cursors")]
     [SerializeField]
-    private Texture2D cursorImage;
+    private Texture2D cursorImageWhite;
+    [SerializeField]
+    private Texture2D cursorImageBlack;
+    private bool isWhite = true;
+    private Vector2 hotSpot;
+
+    [Header("Rotation Cursors")]
+    [SerializeField]
+    private Texture2D rotateCWWhite;
+    [SerializeField]
+    private Texture2D rotateCWBlack;
+    [SerializeField]
+    private Texture2D rotateCCWWhite;
+    [SerializeField]
+    private Texture2D rotateCCWBlack;
 
     [Header("Indicators")]
     [SerializeField]
@@ -43,14 +57,27 @@ public class InputHandler : MonoBehaviour
         inputAudio = this.GetComponent<AudioSource>();
 
         //Set Cursor Sprite
-        Vector2 hotSpot = new Vector2(cursorImage.width * 0.5f, cursorImage.height * 0.5f);
-        Cursor.SetCursor(cursorImage, hotSpot, CursorMode.Auto);
-
-       
+        SetCursor();   
     }
 
-    private void Update()
+    private void SetCursor()
     {
+        hotSpot = new Vector2(cursorImageWhite.width * 0.5f, cursorImageWhite.height * 0.5f);
+
+        if (isWhite)
+        {
+            Cursor.SetCursor(cursorImageWhite, hotSpot, CursorMode.Auto);
+        }
+        else
+        {
+            Cursor.SetCursor(cursorImageBlack, hotSpot, CursorMode.Auto);
+        }
+    }
+
+    public override void UpdateNormal()
+    {
+        GetInputTriggers();
+
         GetMouseInput();
 
         GetKeyboardInput();
@@ -61,6 +88,66 @@ public class InputHandler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             EventManager.TriggerEvent(Events.Invert);
+            if (isWhite)
+                isWhite = false;
+            else
+                isWhite = true;
+
+            SetCursor();
+        }
+    }
+
+    private void GetInputTriggers()
+    {
+        Ray detectionRay = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit rayHit;
+
+        if (Physics.Raycast(detectionRay, out rayHit, Mathf.Infinity))
+        {
+            if(rayHit.collider.tag.Equals("RotateCCW"))
+            {
+                if(isWhite)
+                {
+                    Cursor.SetCursor(rotateCCWWhite, hotSpot, CursorMode.Auto);
+                }
+                else
+                {
+                    Cursor.SetCursor(rotateCCWBlack, hotSpot, CursorMode.Auto);
+                }
+            }
+            else if(rayHit.collider.tag.Equals("RotateCW"))
+            {
+                if (isWhite)
+                {
+                    Cursor.SetCursor(rotateCWWhite, hotSpot, CursorMode.Auto);
+                }
+                else
+                {
+                    Cursor.SetCursor(rotateCWBlack, hotSpot, CursorMode.Auto);
+                }
+            }
+            else if(!rayHit.collider.tag.Equals("RotateCW") && rayHit.collider.tag.Equals("RotateCCW"))
+            {
+                if (isWhite)
+                {
+                    Cursor.SetCursor(cursorImageWhite, hotSpot, CursorMode.Auto);
+                }
+                else
+                {
+                    Cursor.SetCursor(cursorImageBlack, hotSpot, CursorMode.Auto);
+                }
+            }
+        }
+        else
+        {
+            if (isWhite)
+            {
+                Cursor.SetCursor(cursorImageWhite, hotSpot, CursorMode.Auto);
+            }
+            else
+            {
+                Cursor.SetCursor(cursorImageBlack, hotSpot, CursorMode.Auto);
+            }
         }
     }
 
@@ -108,6 +195,16 @@ public class InputHandler : MonoBehaviour
                 if(hit.collider.tag == "Switch")
                 {
                     hit.transform.SendMessage("ActivatePlatformBehaviour", SendMessageOptions.DontRequireReceiver);
+                }
+
+                if(hit.collider.tag == "RotateCW")
+                {
+                    hit.transform.parent.SendMessage("ActivatePlatformBehaviour", 0, SendMessageOptions.DontRequireReceiver);
+                }
+
+                if (hit.collider.tag == "RotateCCW")
+                {
+                    hit.transform.parent.SendMessage("ActivatePlatformBehaviour", 1, SendMessageOptions.DontRequireReceiver);
                 }
             }
         }
