@@ -1,2 +1,8 @@
 Base path: C:/Program Files/Unity/Editor/Data
 Cmd: initializeCompiler
+Cmd: compileSnippet
+  api=1 type=0 insize=3074 outsize=756 kw=PIXELSNAP_ON pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP ok=1
+Cmd: disassembleShader
+  api=1 insize=756 outsize=1216 ok=1
+Cmd: disassembleShader
+  api=4 insize=954 outsize=1757 ok=1

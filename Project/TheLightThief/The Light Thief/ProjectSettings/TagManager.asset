@@ -12,6 +12,7 @@ TagManager:
   - BreathingRing
   - RotateCCW
   - RotateCW
+  - Devil
   layers:
   - Default
   - TransparentFX

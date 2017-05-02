@@ -36,6 +36,13 @@ public class InputHandler : BaseMonoBehaviour
     private GameObject playerWpPrefab;
     private GameObject playerWaypoint;
 
+    private ActivePC activePC;
+    private enum ActivePC
+    {
+        PC,
+        Devil,
+    }
+
     private void OnEnable()
     {
         EventManager.StartListening(Events.EnablePlayerMovement, EnableInput);
@@ -57,7 +64,9 @@ public class InputHandler : BaseMonoBehaviour
         inputAudio = this.GetComponent<AudioSource>();
 
         //Set Cursor Sprite
-        SetCursor();   
+        SetCursor();
+
+        activePC = ActivePC.PC;
     }
 
     private void SetCursor()
@@ -158,8 +167,29 @@ public class InputHandler : BaseMonoBehaviour
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
+            
+
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
+                if(hit.collider.tag == "Player")
+                {
+                    if(activePC != ActivePC.PC)
+                    {
+                        EventManager.TriggerEvent(Events.SwitchPlayers);
+
+                        activePC = ActivePC.PC;
+                    }
+                }
+
+                if(hit.collider.tag == "Devil")
+                {
+                    if (activePC != ActivePC.Devil)
+                    {
+                        EventManager.TriggerEvent(Events.SwitchPlayers);
+                        activePC = ActivePC.Devil;
+                    }
+                }
+
                 if (hit.collider.tag == "Node")
                 {
                     if(allowPlayerMovement)

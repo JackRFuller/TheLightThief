@@ -35,7 +35,7 @@ public class NPCSoundWaveHandler : BaseMonoBehaviour
     {
         if(other.tag.Equals("Player"))
         {
-            Debug.Log("Kill Player");
+            other.SendMessage("Death", SendMessageOptions.DontRequireReceiver);
         }
     }
 }

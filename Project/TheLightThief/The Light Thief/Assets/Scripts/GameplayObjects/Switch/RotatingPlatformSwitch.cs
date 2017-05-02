@@ -23,7 +23,7 @@ public class RotatingPlatformSwitch : Switch
         switchAudio = this.GetComponent<AudioSource>();
         leftCollider.enabled = false;
         rightCollider.enabled = false;
-    }
+    }  
 
     public override void IncrementTriggers()
     {
@@ -31,6 +31,8 @@ public class RotatingPlatformSwitch : Switch
         numOfTriggers++;
         if (numOfTriggers == 2)
         {
+            isActivated = true;
+
             leftCollider.enabled = true;
             rightCollider.enabled = true;
 

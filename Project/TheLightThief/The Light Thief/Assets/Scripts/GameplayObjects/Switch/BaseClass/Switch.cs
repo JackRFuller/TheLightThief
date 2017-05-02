@@ -34,6 +34,19 @@ public class Switch : BaseMonoBehaviour
 
     protected int numOfTriggers;
 
+    protected bool isActivated;
+    public bool IsActivated { get { return isActivated; } } //Used by Inversion script to determine whether or not to turn on 
+
+    private void OnEnable()
+    {
+        EventManager.StartListening(Events.Invert, Invert);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(Events.Invert, Invert);
+    }
+
     protected virtual void Start()
     {
         switchCollider = this.GetComponent<Collider>();
@@ -41,6 +54,11 @@ public class Switch : BaseMonoBehaviour
 
 
         switchCollider.enabled = false;
+    }
+
+    protected virtual void Invert()
+    {
+
     }
 
     public void StartActivatingSwitch()
@@ -88,6 +106,7 @@ public class Switch : BaseMonoBehaviour
         numOfTriggers++;
         if(numOfTriggers == 2)
         {
+            isActivated = true;
             switchCollider.enabled = true;
 
             //Turn Rotating Platforms To White

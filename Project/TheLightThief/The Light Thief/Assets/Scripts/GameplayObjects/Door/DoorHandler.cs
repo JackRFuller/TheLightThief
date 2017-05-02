@@ -22,6 +22,9 @@ public class DoorHandler : MonoBehaviour
     [SerializeField]
     private CameraScreenShake.Properties screenShakeProperties;
 
+    private bool isActivated;
+    public bool IsActivated { get { return isActivated; } }
+
     private void OnEnable()
     {
         EventManager.StartListening(Events.CollectedKey, CollectedKeys);

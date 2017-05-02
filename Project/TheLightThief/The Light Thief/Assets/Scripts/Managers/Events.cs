@@ -29,7 +29,10 @@ public class Events
     public static string StartNPCMovement = "StartNPCMovement";
     public static string NPCRecalibratePath = "NPCRecalibratePath";
 
-    //Inversion
+    //Inversion===========================================================================================================
     public static string Invert = "Invert";
+
+    //Player Switching====================================================================================================
+    public static string SwitchPlayers = "SwitchPlayers";
 	
 }

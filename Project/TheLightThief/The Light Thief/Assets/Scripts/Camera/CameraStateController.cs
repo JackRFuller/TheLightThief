@@ -11,6 +11,7 @@ public class CameraStateController : BaseMonoBehaviour
     public CameraFollowState followState;
     public ICameraState trackState;
     public ICameraState shakeState;
+    public ICameraState switchState;
 
     public ICameraState CurrentState;
     private ICameraState lastState;
@@ -33,6 +34,9 @@ public class CameraStateController : BaseMonoBehaviour
     private float verticalSmoothTime;
     public float VerticalSmoothTime { get { return verticalSmoothTime; } }
 
+    private Collider mainPC;
+    private Collider devilPC;
+
     private Collider target;
     public Collider Target { get { return target; } }
 
@@ -54,23 +58,28 @@ public class CameraStateController : BaseMonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.StartListening(Events.StartedMoving, StartTrackingPlayer);       
+        EventManager.StartListening(Events.StartedMoving, StartTrackingPlayer);   
+        EventManager.StartListening(Events.SwitchPlayers, SwitchPlayableCharacters);
     }
 
     private void OnDisable()
     {
-        EventManager.StopListening(Events.StartedMoving, StartTrackingPlayer);        
+        EventManager.StopListening(Events.StartedMoving, StartTrackingPlayer);
+        EventManager.StopListening(Events.SwitchPlayers, SwitchPlayableCharacters);
     }  
 
     private void Start()
     {
         //Get Target
-        target = PCPathFindingHandler.Instance.GetComponent<Collider>();
+        mainPC = PCPathFindingHandler.Instance.GetComponent<Collider>();
+        devilPC = DevilPathFinding.Instance.GetComponent<Collider>();
+        target = mainPC;
 
         //Create States
         trackState = new CameraTrackState(this);
         followState = new CameraFollowState(this);
         shakeState = new CameraShakeState(this);
+        switchState = new CameraSwitchState(this);
 
         //Set Initial State
         CurrentState = followState;
@@ -95,6 +104,20 @@ public class CameraStateController : BaseMonoBehaviour
         {
             followState.OnLateUpdateState();
         }
+    }
+
+    private void SwitchPlayableCharacters()
+    {
+        if(target == mainPC)
+        {
+            target = devilPC;
+        }
+        else
+        {
+            target = mainPC;
+        }
+
+        CurrentState = switchState;
     }
 
     public void StartTrackingPlayer()

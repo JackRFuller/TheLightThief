@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RotatingPlatformHandler : NonStaticPlatform
 {
+    
     private RotatingPlatformAddOn platformAddOn;
     private List<Collider> platformColliders = new List<Collider>();
 
@@ -37,7 +38,7 @@ public class RotatingPlatformHandler : NonStaticPlatform
     protected override void Start()
     {
         base.Start();
-
+        
         platformAddOn = this.GetComponent<RotatingPlatformAddOn>();
 
         //Find All Colliders
@@ -55,6 +56,9 @@ public class RotatingPlatformHandler : NonStaticPlatform
 
         platformColliders.Add(this.GetComponent<Collider>());
         platformColliders.Add(platformCollider);
+
+        if (inversionHandler)
+            inversionHandler.LateStart();
     }
 
     /// <summary>

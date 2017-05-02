@@ -45,6 +45,9 @@ public class MovingPlatformHandler : NonStaticPlatform
         }
 
         platformColliders.Add(this.GetComponent<Collider>());
+
+        if (inversionHandler)
+            inversionHandler.LateStart();
     }
 
 

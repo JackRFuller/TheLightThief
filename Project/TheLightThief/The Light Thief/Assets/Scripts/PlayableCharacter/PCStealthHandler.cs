@@ -25,8 +25,17 @@ public class PCStealthHandler : BaseMonoBehaviour
 
     private bool hasReAdjustedSpeed;
 
+    private StealthState stealthState;
+    private enum StealthState
+    {
+        Active,
+        Inactive,
+    }
+
     private void Start()
     {
+        stealthState = StealthState.Active;
+
         //Get Components
         pcMovementHandler = this.GetComponent<PCMovementController>();
         enemyAnim = this.transform.GetChild(0).GetComponent<Animator>();
@@ -51,11 +60,13 @@ public class PCStealthHandler : BaseMonoBehaviour
 
     public override void UpdateNormal()
     {
-        if(enemies.Count > 0)
+        if(stealthState == StealthState.Active)
         {
-            DetectEnemy();
+            if (enemies.Count > 0)
+            {
+                DetectEnemy();
+            }
         }
-        
     }   
 
     private void DetectHoldingBreathInput()
@@ -82,6 +93,15 @@ public class PCStealthHandler : BaseMonoBehaviour
     {
 
     }  
+
+    /// <summary>
+    /// Triggered by Death Handler
+    /// </summary>
+    public void PlayerHasDied()
+    {
+        breathingRingHandler.FadeOutRing();
+        stealthState = StealthState.Inactive;
+    }
 
     private void DetectEnemy()
     {

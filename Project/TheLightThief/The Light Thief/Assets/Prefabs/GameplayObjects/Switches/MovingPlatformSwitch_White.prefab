@@ -39,8 +39,9 @@ GameObject:
   - component: {fileID: 82249414909649954}
   - component: {fileID: 111104449999136420}
   - component: {fileID: 114334468091136282}
+  - component: {fileID: 114266177078387996}
   m_Layer: 0
-  m_Name: MovingPlatformSwitch
+  m_Name: MovingPlatformSwitch_White
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,6 +252,20 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114266177078387996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1115822708336986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991e62f06941f1449a0bd41d763809f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  switchMesh: {fileID: 23090636585378708}
+  switchSprite: {fileID: 212044462429910104}
+  startingState: 0
 --- !u!114 &114334468091136282
 MonoBehaviour:
   m_ObjectHideFlags: 1

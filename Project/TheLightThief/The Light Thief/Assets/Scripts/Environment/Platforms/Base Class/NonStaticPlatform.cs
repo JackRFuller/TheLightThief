@@ -25,9 +25,12 @@ public class NonStaticPlatform : MonoBehaviour
     //Enemies
     protected List<NPCMovementHandler> enemies;
 
+    protected NonStaticPlatformInversion inversionHandler;
+
     protected virtual void Start()
     {
         //Get Components
+        inversionHandler = this.GetComponent<NonStaticPlatformInversion>();
         platformMeshes = this.GetComponentsInChildren<MeshRenderer>();
         platformAudio = this.GetComponent<AudioSource>();
         platformCollider = this.GetComponent<Collider>();
