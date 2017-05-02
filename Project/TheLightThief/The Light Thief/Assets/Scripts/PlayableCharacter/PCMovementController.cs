@@ -48,8 +48,6 @@ public class PCMovementController : MonoBehaviour
             playerRotation = Utilities.GetObjectZWorldRotation(this.transform);
 
             //Adjust Target Based On Rotation & Work Out Look Rotation
-            Vector3 lookDirection = Vector3.zero;
-
             if (playerRotation == 0 || playerRotation == 180)
             {
                 targetPoint = new Vector3(targetPoint.x,
