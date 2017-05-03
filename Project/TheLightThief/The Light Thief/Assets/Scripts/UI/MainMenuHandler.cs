@@ -69,7 +69,7 @@ public class MainMenuHandler : MonoSingleton<MainMenuHandler>
             pauseScreen = Instantiate(pauseScreenPrefab) as GameObject;
 
         mainMenuAnim.Play("MainMenuUp");        
-        LevelManager.Instance.StartUpNewGame();        
+        //LevelManager.Instance.StartUpNewGame();        
 
         isInMainMenuMode = false;
         Analytics.CustomEvent("NewGame", new Dictionary<string, object>
@@ -87,7 +87,7 @@ public class MainMenuHandler : MonoSingleton<MainMenuHandler>
 
         mainMenuAnim.Play("MainMenuUp");
 
-        LevelManager.Instance.LoadInGame();
+        //LevelManager.Instance.LoadInGame();
         mainMenuAudio.Play();
     }
 

@@ -86,10 +86,13 @@ public class DoorHandler : MonoBehaviour
     {
         if(other.tag.Equals("Player"))
         {
+            EventManager.TriggerEvent(Events.TransitionLevels);
+
             Transform player = other.transform;
             player.position = new Vector3(1000, 1000, 1);
             player.parent = null;
-            LevelManager.Instance.LoadInNextLevel();
+
+           // LevelManager.Instance.LoadInNextLevel();
         }
     }
 

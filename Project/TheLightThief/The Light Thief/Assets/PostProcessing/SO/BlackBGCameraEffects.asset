@@ -27,7 +27,7 @@ MonoBehaviour:
   fog:
     m_Enabled: 1
     m_Settings:
-      excludeSkybox: 1
+      excludeSkybox: 0
   antialiasing:
     m_Enabled: 1
     m_Settings:
@@ -71,21 +71,21 @@ MonoBehaviour:
   depthOfField:
     m_Enabled: 0
     m_Settings:
-      focusDistance: 2.16
-      aperture: 6.1
-      focalLength: 50
+      focusDistance: 0.1
+      aperture: 0.1
+      focalLength: 18
       useCameraFov: 1
-      kernelSize: 0
+      kernelSize: 2
   motionBlur:
     m_Enabled: 0
     m_Settings:
-      shutterAngle: 0
+      shutterAngle: 360
       sampleCount: 4
-      frameBlending: 0
+      frameBlending: 1
   eyeAdaptation:
     m_Enabled: 0
     m_Settings:
-      lowPercent: 45
+      lowPercent: 1
       highPercent: 95
       minLuminance: -5
       maxLuminance: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
     m_Enabled: 0
     m_Settings:
       tonemapping:
-        tonemapper: 1
+        tonemapper: 2
         neutralBlackIn: 0.02
         neutralWhiteIn: 10
         neutralBlackOut: 0
@@ -298,9 +298,9 @@ MonoBehaviour:
       mode: 0
       color: {r: 0, g: 0, b: 0, a: 1}
       center: {x: 0.5, y: 0.5}
-      intensity: 0.419
-      smoothness: 0.33
-      roundness: 1
+      intensity: 0.42
+      smoothness: 0.521
+      roundness: 0.26
       mask: {fileID: 0}
       opacity: 1
       rounded: 1

@@ -34,5 +34,11 @@ public class Events
 
     //Player Switching====================================================================================================
     public static string SwitchPlayers = "SwitchPlayers";
+
+    //Level Changing
+    public static string TransitionLevels = "TransitionLevels";
+
+    //UI
+    public static string WhiteFlash = "WhiteFlash";
 	
 }

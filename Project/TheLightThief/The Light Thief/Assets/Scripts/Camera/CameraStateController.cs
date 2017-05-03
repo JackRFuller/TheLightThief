@@ -12,6 +12,7 @@ public class CameraStateController : BaseMonoBehaviour
     public ICameraState trackState;
     public ICameraState shakeState;
     public ICameraState switchState;
+    public ICameraState levelTransitionState;
 
     public ICameraState CurrentState;
     private ICameraState lastState;
@@ -40,6 +41,8 @@ public class CameraStateController : BaseMonoBehaviour
     private Collider target;
     public Collider Target { get { return target; } }
 
+    //[Header("Level Transition Attributes")]
+
     //Camera Shake
     private CameraShakeProperties shakeProperties;
     public CameraShakeProperties ShakeProperties { get { return shakeProperties; } }
@@ -60,12 +63,14 @@ public class CameraStateController : BaseMonoBehaviour
     {
         EventManager.StartListening(Events.StartedMoving, StartTrackingPlayer);   
         EventManager.StartListening(Events.SwitchPlayers, SwitchPlayableCharacters);
+        EventManager.StartListening(Events.TransitionLevels, StartTransitionLevels);
     }
 
     private void OnDisable()
     {
         EventManager.StopListening(Events.StartedMoving, StartTrackingPlayer);
         EventManager.StopListening(Events.SwitchPlayers, SwitchPlayableCharacters);
+        EventManager.StopListening(Events.TransitionLevels, StartTransitionLevels);
     }  
 
     private void Start()
@@ -80,6 +85,8 @@ public class CameraStateController : BaseMonoBehaviour
         followState = new CameraFollowState(this);
         shakeState = new CameraShakeState(this);
         switchState = new CameraSwitchState(this);
+        levelTransitionState = new CameraLevelTransitionState(this);
+
 
         //Set Initial State
         CurrentState = followState;
@@ -104,6 +111,11 @@ public class CameraStateController : BaseMonoBehaviour
         {
             followState.OnLateUpdateState();
         }
+    }
+
+    private void StartTransitionLevels()
+    {
+        CurrentState = levelTransitionState;
     }
 
     private void SwitchPlayableCharacters()
