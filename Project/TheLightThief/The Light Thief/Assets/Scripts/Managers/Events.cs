@@ -35,6 +35,11 @@ public class Events
     //Player Switching====================================================================================================
     public static string SwitchPlayers = "SwitchPlayers";
 
+    //Stealth=============================================================================================================
+    public static string HoldingBreath = "HoldingBreath";
+    public static string StopHoldingBreath = "StopHoldingBreath";
+
+
     //Level Changing
     public static string TransitionLevels = "TransitionLevels";
 

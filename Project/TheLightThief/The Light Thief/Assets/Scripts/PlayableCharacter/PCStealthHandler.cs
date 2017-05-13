@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PCStealthHandler : BaseMonoBehaviour
 {
-
-    //Components
+     //Components
     private Animator enemyAnim;
     private PCMovementController pcMovementHandler;
     private List<Transform> enemies;
@@ -32,9 +31,17 @@ public class PCStealthHandler : BaseMonoBehaviour
         Inactive,
     }
 
+    private BreathState breathState;
+    private enum BreathState
+    {
+        Holding,
+        Releasing,
+    }
+
     private void Start()
     {
         stealthState = StealthState.Active;
+        breathState = BreathState.Releasing;
 
         //Get Components
         pcMovementHandler = this.GetComponent<PCMovementController>();
@@ -55,7 +62,12 @@ public class PCStealthHandler : BaseMonoBehaviour
             breathingRing = Instantiate(breathingRingPrefab) as GameObject;
             breathingRingHandler = breathingRing.GetComponent<BreathingRingHandler>();
             breathingRingHandler.SetupBreathingRing(followPoint, lerpValues);
-        }         
+        }
+        else
+        {
+            //Disable Stealth
+            stealthState = StealthState.Inactive;
+        }
     }    
 
     public override void UpdateNormal()
@@ -65,34 +77,51 @@ public class PCStealthHandler : BaseMonoBehaviour
             if (enemies.Count > 0)
             {
                 DetectEnemy();
+
+                DetectHoldingBreathInput();
             }
         }
     }   
 
     private void DetectHoldingBreathInput()
     {
-        if(enemyAnim.GetBool("isSneaking"))
+        if(Input.GetMouseButtonDown(0))
         {
-            if(Input.GetMouseButton(0))
+            if(breathState == BreathState.Releasing)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
                 RaycastHit hit;
 
-                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    if(hit.collider.tag.Equals("Player"))
+                    if (hit.collider.tag.Equals("Player"))
                     {
-
+                        Debug.Log("Hold Breath");
+                        EventManager.TriggerEvent(Events.HoldingBreath);
+                        breathState = BreathState.Holding;
                     }
                 }
+            }            
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            if(breathState == BreathState.Holding)
+            {
+                EventManager.TriggerEvent(Events.StopHoldingBreath);
+                breathState = BreathState.Releasing;
             }
         }
+
     }
 
     private void HoldBreath()
     {
-
-    }  
+        if(enemyAnim.GetBool("isSneaking"))
+        {
+            Debug.Log("HoldBreath");
+        }
+    }    
 
     /// <summary>
     /// Triggered by Death Handler

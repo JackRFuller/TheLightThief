@@ -165,9 +165,7 @@ public class InputHandler : BaseMonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            
+            RaycastHit hit;            
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
@@ -178,7 +176,7 @@ public class InputHandler : BaseMonoBehaviour
                         EventManager.TriggerEvent(Events.SwitchPlayers);
 
                         activePC = ActivePC.PC;
-                    }
+                    }                    
                 }
 
                 if(hit.collider.tag == "Devil")

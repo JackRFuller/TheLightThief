@@ -29,7 +29,6 @@ public class NPCPathFindingHandler : BaseMonoBehaviour
         float dist = 0;
 
         float playerRot = Utilities.GetObjectZWorldRotation(this.transform);
-        Debug.Log(playerRot);
 
         for(int i = 0; i < NodeManager.Nodes.Count; i++)
         {
@@ -49,8 +48,6 @@ public class NPCPathFindingHandler : BaseMonoBehaviour
         NPCrotation = Utilities.GetObjectZWorldRotation(this.transform);
         NPCposition = this.transform.position;
         FindClosestNode();
-
-        Debug.Log(startingNode);
 
         //CHeck if we're going horizontally
         if(NPCrotation == 0 || NPCrotation == 180)
@@ -94,10 +91,6 @@ public class NPCPathFindingHandler : BaseMonoBehaviour
                     break;
                 }
             }
-
-            Debug.Log(pathPointOne);
-            Debug.Log(pathPointTwo);
-
         }
         else
         {

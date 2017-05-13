@@ -27,6 +27,16 @@ public class BreathingRingHandler : BaseMonoBehaviour
         Holding,
     }
 
+    private void OnEnable()
+    {
+        EventManager.StartListening(Events.HoldingBreath, InitHoldingBreath);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(Events.HoldingBreath, InitReleasingBreath);
+    }
+
     private void Start()
     {
         breathingRingAnim = this.GetComponent<Animation>();
@@ -59,15 +69,28 @@ public class BreathingRingHandler : BaseMonoBehaviour
         if(breathingMode == BreathingMode.Standard)
         {
             Breath();
-        }
+        } 
         else
         {
-            HoldBreath();
+
         }
         
     }
 
-    private void HoldBreath()
+    private void InitHoldingBreath()
+    {
+
+    }
+
+    private void InitReleasingBreath()
+    {
+
+    }  
+
+    /// <summary>
+    /// Used when holding and releasing breath
+    /// </summary>
+    private void LerpBreathSize()
     {
 
     }
